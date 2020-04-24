@@ -1,3 +1,53 @@
 \section{Algoritmo di Prim}
+\begin{lstlisting}[mathescape=true]
+PRIM (G, s)
+	X = {s} //set of vertexes included in the MST
+	A =	$\emptyset$ //set of edges included in the MST
+	while there is an edge (u, v) with u $\in$ X and v $\notin$ X do
+		(u$\ast$, v$\ast$) = a minimum cost such edge //light edge
+		add vertex v$\ast$ to X
+		add edge (u$\ast$, v$\ast$) to A
+	return A	
 
+\end{lstlisting}
+L'algoritmo di Prim costruisce un MST a partire da un vertice di iniziale s, aggiungendoci un lato alla volta:
+\begin{figure}[H]
+	\centering\includegraphics[width=15cm]{Img/prim.jpg}
+\end{figure}
+Ad ogni iterazione, si considerano i lati attraversati dal taglio (raffigurato in blu) che separa \texttt{X} dal resto del grafo. Successivamente, di questi viene scelto il lato (u, v) di peso minimo. Infine, il lato selezionato viene aggiunto all'insieme \texttt{A} e il vertice \texttt{v} viene aggiunto all'insieme \texttt{X}.
+
+\subsection{Strutture dati}
+\subsubsection{Min-heap}
+La struttura dati utilizzata per l'implementazione dell'algoritmo è la struttura min-heap. Un heap è composto da un array che può essere considerato come un albero binario quasi completo. Ogni nodo dell'albero corrisponde a un elemento dell'array. Tutti i livelli sono completamente riempiti, tranne eventualmente l'ultimo che può essere riempito da sinistra fino ad un certo punto.\\
+Un array \texttt{A} che rappresenta un heap è un oggetto con due attributi:
+\begin{itemize}
+	\item \texttt{A.length}: numero degli elementi dell'array;
+	\item \texttt{A.heap-size}: numero degli elementi dell'heap che sono registrati nell'array.
+\end{itemize}
+Cioè, anche se ci possono essere dei numeri memorizzati in tutto l'array \texttt{A[1...A.length]}, soltanto i numeri in \texttt{[1...A.heap-size]}, dove 0 $\leq$ \texttt{A.heap-size} $\leq$ \texttt{A.length}, sono elementi validi dell'heap.\\
+A partire dall'indice i di un nodo è possibile accedere all'indice del padre, del figlio sinistro e del figlio destro nel seguente modo:
+\begin{itemize}
+	\item \textbf{PARENT}: $\lfloor$i/2$\rfloor$ 
+	\item \textbf{LEFT}: 2$\ast$i
+	\item \textbf{RIGHT}: 2$\ast$i + 1
+\end{itemize}
+Un min-heap presenta la cosiddetta proprietà del min-heap, secondo la quale, per ogni nodo diverso dalla radice, si ha che \texttt{A[PARENT(i)] $\leq$ A[i]}. Di conseguenza il più piccolo elemento in un min-heap è nella radice.
+
+\subsubsection{Node}
+L'oggetto Node rappresenta un vertice del grafo. Esso comprende i seguenti campi dati:
+\begin{itemize}
+	\item \textbf{tag}: intero che identifica un vertice;
+	\item \textbf{key}: chiave del vertice. Il suo valore di default è \texttt{None};
+	\item \textbf{parent}: padre del vertice. Il suo valore di default è \texttt{None};
+	\item \textbf{isPresent}: variabile booleana che memorizza quando un nodo è stato aggiunto all'insieme \texttt{X}. Il suo valore di default è \texttt{true};
+	\item \textbf{index}: indice dell'array del min-heap associato al vertice; 
+	\item \textbf{adjacencyList}: lista di adiacenza del vertice.
+	Il suo valore di default è la lista vuota
+\end{itemize}
+
+\subsubsection{Graph}
+L'oggetto Graph permette di gestire la creazione e la costruzione di un grafo secondo le caratteristiche specificate nel file .txt di input. Il suo unico campo dati è \textbf{nodes}, un dizionario di oggetti di tipo Node. Il tipo dizionario utilizzato è \texttt{defaultDict} di Python. La scelta di utilizzare questo tipo di dizionario è dovuta al fatto che l'oggetto viene inizializzato con una funzione che fornisce un valore di default nel caso si utilizzi una chiave non esistente. In questo modo non vengono sollevate eccezioni del tipo \emph{"KeyError"}.
+
+\subsection{Implementazione}
+\subsection{Complessità}
 \pagebreak
