@@ -39,14 +39,14 @@ L'oggetto Node rappresenta un vertice del grafo. Esso comprende i seguenti campi
 	\item \textbf{tag}: intero che identifica un vertice;
 	\item \textbf{key}: chiave del vertice. Il suo valore di default è \texttt{None};
 	\item \textbf{parent}: padre del vertice. Il suo valore di default è \texttt{None};
-	\item \textbf{isPresent}: variabile booleana che memorizza quando un nodo è stato aggiunto all'insieme \texttt{X}. Il suo valore di default è \texttt{true};
+	\item \textbf{isPresent}: variabile booleana che memorizza se un nodo sia presente o meno nell'array-heap. Il suo valore di default è \texttt{true};
 	\item \textbf{index}: indice dell'array del min-heap associato al vertice; 
 	\item \textbf{adjacencyList}: lista di adiacenza del vertice.
 	Il suo valore di default è la lista vuota
 \end{itemize}
 
 \subsubsection{Graph}
-L'oggetto Graph permette di gestire la creazione e la costruzione di un grafo secondo le caratteristiche specificate nel file .txt di input. Il suo unico campo dati è \textbf{nodes}, un dizionario di oggetti di tipo Node. Il tipo dizionario utilizzato è \texttt{defaultDict} di Python. La scelta di utilizzare questo tipo di dizionario è dovuta al fatto che l'oggetto viene inizializzato con una funzione che fornisce un valore di default nel caso si utilizzi una chiave non esistente. In questo modo non vengono sollevate eccezioni del tipo \emph{"KeyError"}.
+L'oggetto Graph permette di gestire la creazione e la costruzione di un grafo secondo le caratteristiche specificate nel file .txt di input. Il suo unico campo dati è \texttt{nodes}, un dizionario di oggetti di tipo Node. Il tipo dizionario utilizzato è \texttt{defaultDict} di Python. La scelta di utilizzare questo tipo di dizionario è dovuta al fatto che l'oggetto viene inizializzato con una funzione che fornisce un valore di default nel caso si utilizzi una chiave non esistente. In questo modo non vengono sollevate eccezioni del tipo \emph{"KeyError"}.
 
 \subsection{Implementazione}
 La soluzione del problema è stata implementata nel seguente modo:
@@ -59,21 +59,28 @@ La soluzione del problema è stata implementata nel seguente modo:
 		\texttt{nodes[tag\_vertice1].adjacencyList.append([nodes[tag\_vertice2], peso])}
 		\texttt{nodes[tag\_vertice2].adjacencyList.append([nodes[tag\_vertice1], peso])}
 		
-		Ogni lista di adiacenza contiene un numero di sottoliste di due elementi pari al numero di vertici adiacenti. I due elementi sono il vertice adiacente e il peso dell'arco che connette i due vertici. In questo modo si riesce ad accedere sia alle informazioni del vertici adiacente sia al peso in maniera immediata.\\
-		L'inizializzazione al punto 1 tutti i possibili vertici del grafo assicura che il vertice che viene aggiunto alla lista di adiacenza di un altro vertice sia un oggetto definito. Inoltre ogni vertice presente in una lista di adiacenza è un riferimento all'oggetto vero e proprio. In questo modo non vengono effettuate copie inutili.
+		Ogni lista di adiacenza, quindi, contiene un numero di sottoliste di due elementi pari al numero di vertici adiacenti. I due elementi sono il vertice adiacente e il peso dell'arco che connette i due vertici. In questo modo si riesce ad accedere sia alle informazioni del vertice adiacente sia al peso in maniera immediata.\\
+		L'inizializzazione al punto 1 tutti i possibili vertici del grafo assicura che il vertice che viene aggiunto alla lista di adiacenza di un altro vertice sia un oggetto definito. Inoltre ogni vertice presente in una lista di adiacenza è un riferimento all'oggetto vero e proprio. In questo modo non vengono effettuate copie inutili;
 	\end{enumerate}
 	\item Una volta creato il grafo, esso viene fornito come input all'algoritmo \texttt{MSTPrim} insieme al nodo di partenza. L'algoritmo esegue i seguenti passi:
 	\begin{enumerate}
 		\item Assegna al campo \texttt{key} di ogni vertice il valore $\infty$ \texttt{(math.inf)};
 		\item Assegna al campo \texttt{key} del nodo di partenza il valore 0;
-		\item Viene inizializzata la struttura min-heap a partire dai nodi del grafo. L'inizializzazione tiene conto del nodo di partenza. Infatti, seguendo la struttura del file di input, la lista di vertici che viene fornita come input alla struttura dati è una lista ordinata a partire dal vertice con \texttt{tag = 1}. Di conseguenza posssono verificarsi due casi:
+		\item Viene inizializzata la struttura min-heap a partire dai nodi del grafo. L'inizializzazione tiene conto del nodo di partenza. Infatti, seguendo la struttura del file di input, la lista di vertici che viene fornita come input alla struttura dati è una lista ordinata a partire dal vertice con \texttt{tag = 1}. Di conseguenza possono verificarsi due casi:
 		\begin{itemize}
 			\item Se il vertice di partenza è il vertice con \texttt{tag = 1} quest'ultimo sarà il nodo radice dell'albero min-heap, in quanto il suo campo \texttt{key}, utilizzato per confrontare i nodi, sarà il più piccolo. In questo caso l'array-heap sarà costruito utilizzando la lista di input;
 			\item Se il vertice di partenza ha \texttt{tag != 1} l'array-heap viene costruito in modo analogo a prima. Dopodiché il nodo di partenza viene posto in testa all'array-heap e tutti i campi \texttt{index} di tutti vertici vengono aggiornati.
 		\end{itemize}
-		\item   
+		Posizionare il nodo di partenza in testa all'array-heap assicura che la proprietà del min-heap venga rispettata. Il compromesso è l'aggiornamento di tutti i campi \texttt{index}, eseguibile in tempo lineare nel numero di vertici;
+		\item A questo punto comincia la fase iterativa dell'algoritmo:
+		\begin{enumerate}
+			\item Viene estratto il minimo dalla struttura min-heap tramite la procedura \texttt{extractMin()}. Per fare ciò essa estrae la radice dell'albero, effettua gli aggiornamenti necessari per mantenere la proprietà del min-heap attraverso il metodo \texttt{minHeapify()}, assegna al campo \texttt{isPresent} il valore \texttt{false} poiché il vertice non farà più parte dell'array-heap ed infine ritorna la radice;
+			\item Per ogni vertice \texttt{v} nella lista di adiacenza del vertice appena estratto si controlla che i) appartenga all'array-heap e ii) che il peso dell'arco tra i due sia minore del valore attuale del campo \texttt{key} del vertice estratto. In caso positivo, si procede all'aggiornamento dei campi \texttt{parent} e \texttt{key} di \texttt{v};
+			\item Viene invocato il metodo \texttt{bubbleUp()} per mantenere la proprietà del min-heap. Esso colloca nella posizione esatta dell'albero il vertice \texttt{v} in quanto il suo campo \texttt{key} è stato precedentemente aggiornato.
+		\end{enumerate} 
 	\end{enumerate}
 \end{itemize}
 
 \subsection{Complessità}
+La complessità dell'algoritmo è \textbf{O(nlog(n))}.
 \pagebreak
