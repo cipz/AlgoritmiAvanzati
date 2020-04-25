@@ -1,3 +1,37 @@
 \section{Algoritmo di Kruskal con Union-Find}
 
+\begin{lstlisting}[mathescape=true]
+KRUSKAL(G):
+A = $\emptyset$
+For each vertex v $\in$ G.V:
+	MAKE-SET(v)
+For each edge (u, v) $\in$ G.E ordered by increasing order by weight(u, v):
+	if FIND-SET(u) $\neq$ FIND-SET(v):       
+		A = A U {(u, v)}
+		UNION(u, v)
+return A
+\end{lstlisting}
+
+Kruskal "naive" è un algoritmo greedy che non utilizza particolari strutture dati e che costruisce un MST aggiungendo ad ogni iterazione un nuovo lato di costo minimo all'insieme A se ciò non comporta il verificarsi di un ciclo.
+
+\subsection{Strutture dati}
+
+	\subsubsection{Graph ed Edge}
+		L'implementazione di queste due strutture dati sono equivalenti a quelle utilizzate in AGGIUNGERE SEZIONE per l'algoritmo di Kruskal naive.
+
+	\subsection{Union Find}
+		La struttura dati Union Find è definita da...
+		
+		\begin{itemize}
+			\item \textbf{a} b
+			\item \textbf{a} b
+			\item \textbf{a} b
+		\end{itemize}
+
+\subsection{Implementazione}
+	La soluzione del problema è stata implementata nel seguente modo:
+
+\subsection{Complessità}
+	La complessità dell'intero algoritmo è 
+
 \pagebreak
