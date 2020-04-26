@@ -85,8 +85,8 @@ La soluzione del problema è stata implementata nel seguente modo:
 La complessità dell'algoritmo è \textbf{O(mlog(n))}, dove \emph{m} indica il numero totale di archi e \emph{n} il numero totale di vertici:
 \begin{itemize}
 	\item L'inizializzazione della struttura min-heap, nel caso peggiore, 	richiede un tempo di esecuzione \textbf{O(n)};
-	\item L'operazione \texttt{extractMin()} ha un tempo di esecuzione di \textbf{O(log(n))} e viene ripetuta \emph{n} volte all'interno del ciclo \emph{while}. Il costo totale quindi sarà \textbf{O(nlog(n))};
-	\item Il ciclo \emph{for} viene eseguito \textbf{O(m)} volte, in quanto la somma delle lunghezze delle liste di adiacenza è 2|m|. All'interno del ciclo \emph{for}, il test che verifica l'appartenenza di un vertice adiacente alla struttura min-heap è eseguito in tempo costante \textbf{O(1)}. Infine, l'operazione \texttt{bubbleUp()} per il ripristino della proprietà del min-heap è eseguita in tempo \textbf{O(log(n))}. Il costo totale quindi sarà \textbf{O(mlog(n))};
+	\item L'operazione \texttt{extractMin()} ha un tempo di esecuzione di \textbf{O(log(n))} e viene ripetuta \emph{n} volte all'interno del ciclo \emph{while}. Il costo totale quindi è \textbf{O(nlog(n))};
+	\item Il ciclo \emph{for} viene eseguito \textbf{O(m)} volte, in quanto la somma delle lunghezze delle liste di adiacenza è 2|m|. All'interno del ciclo \emph{for}, il test che verifica l'appartenenza di un vertice adiacente alla struttura min-heap è eseguito in tempo costante \textbf{O(1)}. Infine, l'operazione \texttt{bubbleUp()} per il ripristino della proprietà del min-heap è eseguita in tempo \textbf{O(log(n))}. Il costo totale quindi è \textbf{O(mlog(n))};
 \end{itemize}
 Sommando i dati appena calcolati, il tempo totale dell'algoritmo è \textbf{O(nlog(n) + mlog(n))) = O(mlog(n))}.
 \pagebreak
