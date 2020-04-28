@@ -1,16 +1,16 @@
-\section{Algoritmo di Kruskal con implementazione "naive"}
+\section{Algoritmo di Kruskal con implementazione ``naive''}\label{kruskal_naive}
 \begin{lstlisting}[mathescape=true]
 KRUSKAL (G)
 A = $\emptyset$
 sort edges of G by cost
 for each edge e, in non decreasing order of cost do
-	if A U {e} is acyclic then
-		A = A U {e}
+	if A $\cup$ {e} is acyclic then
+		A = A $\cup$ {e}
 return A	
 \end{lstlisting}
-Kruskal "naive" è un algoritmo greedy che non utilizza particolari strutture dati e che costruisce un MST aggiungendo ad ogni iterazione un nuovo lato di costo minimo all'insieme A se ciò non comporta il verificarsi di un ciclo.
+Kruskal ``naive'' è un algoritmo greedy che non utilizza particolari strutture dati e che costruisce un MST aggiungendo ad ogni iterazione un nuovo lato di costo minimo all'insieme A, se ciò non comporta il verificarsi di un ciclo.
 \subsection{Strutture dati}
-\subsubsection{Graph}
+\subsubsection{Graph}\label{kruskal_naive_graph}
 L'oggetto contiene le informazioni relative al grafo in esame:
 \begin{itemize}
 	\item \textbf{n}: campo dati che indica numero di vertici;
@@ -20,7 +20,7 @@ L'oggetto contiene le informazioni relative al grafo in esame:
 	\item \textbf{isConnected(s, t)}: metodo che dati due vertici in input ritorna \texttt{"True"} se essi sono connessi o \texttt{"False"} se non lo sono;
 	\item \textbf{buildGraph(input)}: metodo che dato in input il file che contiene la struttura di un grafo suddiviso per linee costruisce un oggetto \texttt{Graph()}.
 \end{itemize} 
-\subsubsection{Edge}
+\subsubsection{Edge}\label{kruskal_naive_edge}
 L'oggetto edge contiene le informazioni relative ad un arco:
 \begin{itemize}
 	\item \textbf{v1}: vertice di partenza;

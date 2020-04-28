@@ -1,21 +1,28 @@
 % Creazione della copertina
 \newcommand{\copertina}{
-  \newgeometry{top=4cm}
+  \newgeometry{top=5cm}
   
   \begin{titlepage}
   \begin{center}
-  
+ 
+	\begin{tikzpicture}[remember picture, overlay, scale=.5, transform shape, opacity=0.15]
+		\node[anchor=center] at (current page.west){%
+		\pgfimage{Stile/logo.png}};
+	\end{tikzpicture}
+    
   \vspace{1cm}
 
   \begin{Huge}
-    \textbf{Laboratorio 1} \\
+    \textbf{Corso di Algoritmi Avanzati}\\
+    \vspace{20pt}  
+    \textbf{Laboratorio 1:} \\
     \textbf{Minimum Spanning Tree} \\
   \end{Huge}
 
   \vspace{9pt}  
   
   \begin{large}
-  17/04/2020
+  	\today
   \end{large}	  
   
   \vspace{15pt}
@@ -23,9 +30,13 @@
   \vspace{15pt}
 
   \begin{center}
-    \textbf{Busin Lorenzo 1237580} \\
-    \textbf{Tartaggia Nicolò } \\
-    \textbf{Voinea Ciprian } \\
+  	
+  	\begin{tabular}{ c c }
+		\textbf{Busin Lorenzo} & 1237580  \\
+		\textbf{Tartaggia Nicolò} &   \\
+		\textbf{Voinea Ciprian} & 1237294  \\
+  	\end{tabular}
+  	
   \end{center}
 
   \end{center}

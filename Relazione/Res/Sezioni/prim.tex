@@ -1,8 +1,8 @@
-\section{Algoritmo di Prim}
+\section{Algoritmo di Prim}\label{prim}
 \begin{lstlisting}[mathescape=true]
 PRIM (G, s)
 	X = {s} //set of vertexes included in the MST
-	A =	$\emptyset$ //set of edges included in the MST
+	A = $\emptyset$ //set of edges included in the MST
 	while there is an edge (u, v) with u $\in$ X and v $\notin$ X do
 		(u$\ast$, v$\ast$) = a minimum cost such edge //light edge
 		add vertex v$\ast$ to X
