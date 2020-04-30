@@ -11,7 +11,7 @@ return A
 Kruskal ``naive'' è un algoritmo greedy che non utilizza particolari strutture dati e che costruisce un MST aggiungendo ad ogni iterazione un nuovo lato di costo minimo all'insieme A, se ciò non comporta il verificarsi di un ciclo.
 \subsection{Strutture dati}
 \subsubsection{Graph}\label{kruskal_naive_graph}
-L'oggetto contiene le informazioni relative al grafo in esame:
+L'oggetto contiene le informazioni relative ad un grafo:
 \begin{itemize}
 	\item \textbf{n}: campo dati che indica numero di vertici;
 	\item \textbf{Le}: campo dati che contiene la lista degli archi;
@@ -43,6 +43,10 @@ La soluzione del problema è stata implementata nel seguente modo:
 \end{itemize}
 
 \subsection{Complessità}
-La complessità dell'intero algoritmo è \textbf{O(mn)} e si ottiene considerando l'algoritmo impiegato per l'ordinamento degli archi in base al peso, che in questo caso è il MergeSort e quindi ha complessità \textbf{O(m log(m))} con \emph{m} che indica il numero di archi, ed il ciclo for che effettua al più \emph{m} iterazioni, in cui per ognuna si valuta se il lato in esame può essere aggiunto alla soluzione: in questo caso il controllo sfrutta una variante della BST e quindi ha complessità lineare nel numero di vertici \textbf{O(n)}.
+La complessità dell'algoritmo è \textbf{O(mn)}, dove \emph{m} indica il numero totale di archi e \emph{n} il numero totale di vertici:
+\begin{itemize}
+	\item L'ordinamento degli archi in base al peso viene eseguito con l'algoritmo MergeSort che ha complessità \textbf{O(m log(m))};
+	\item Il ciclo \emph{for} viene eseguito in  \textbf{O(m)} iterazioni, ma è possibile fermare il ciclo quando l'insieme A raggiunge \emph{n-1} lati. Ad ogni iterazione viene chiamata la funzione \texttt{isConnected()} per verificare se il lato in esame può essere aggiunto alla soluzione che ha complessità lineare nel numero di vertici \textbf{O(n)}.
+\end{itemize}
 
 \pagebreak
