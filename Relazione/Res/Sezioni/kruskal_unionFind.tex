@@ -1,11 +1,13 @@
 \section{Algoritmo di Kruskal con Union-Find}
 
+% For each edge (u, v) $\in$ G.E ordered by increasing order by weight(u, v):
 \begin{lstlisting}[mathescape=true]
 KRUSKAL(G):
 	A = $\emptyset$
 	For each vertex v $\in$ G.V:
 		MAKE-SET(v)
-	For each edge (u, v) $\in$ G.E ordered by increasing order by weight(u, v):
+	sort edges of G by cost
+	for each edge e, in non decreasing order of cost do	
 		if FIND-SET(u) $\neq$ FIND-SET(v):       
 			A = A $\cup$ {(u, v)}
 			UNION(u, v)
@@ -45,8 +47,8 @@ Come per la sua versione naive, l'implementazione di Kruskal tramite l'uso della
 			\begin{enumerate}  				
 				\item viene definito $A$ un insieme vuoto, a questo vengono aggiunti ad ogni iterazione i lati che andranno a costituire la soluzione;
 				\item viene inizializzata la struttura di insiemi disgiunti $U$ passando l'insieme di nodi del grafo al suo costruttore, questo crea un insieme per ciascun nodo del grafo;
-				\item utilizzando l'algoritmo MergeSort, viene ordinata la lista contenente gli archi del grafo di input in maniera crescente;		
-				\item viene iterata la lista di lati ordinata e per ciascuno di questi viene controllato tramite se gli insiemi dei suoi nodi coincidono confrondandone la root, se queste sono diverse significa i nodi sono in due componenti connesse distinte, in tal caso viene aggiungo il lato al grafo di soluzione $A$ aggiornando la situazione delle componenti connesse.
+				\item utilizzando l'algoritmo \textit{MergeSort}, viene ordinata la lista contenente gli archi del grafo di input in maniera crescente;		
+				\item viene iterata la lista di lati ordinata e per ciascuno di questi viene controllato se gli insiemi dei suoi nodi coincidono confrondandone la root, se queste sono diverse significa i nodi sono in due componenti connesse distinte, in tal caso viene aggiungo il lato al grafo di soluzione $A$ aggiornando la situazione delle componenti connesse.
 			\end{enumerate}
 		\end{itemize}
 	

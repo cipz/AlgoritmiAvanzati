@@ -1,4 +1,5 @@
 \section{Algoritmo di Kruskal con implementazione ``naive''}\label{kruskal_naive}
+
 \begin{lstlisting}[mathescape=true]
 KRUSKAL (G)
 A = $\emptyset$
@@ -8,45 +9,54 @@ for each edge e, in non decreasing order of cost do
 		A = A $\cup$ {e}
 return A	
 \end{lstlisting}
-Kruskal ``naive'' è un algoritmo greedy che non utilizza particolari strutture dati e che costruisce un MST aggiungendo ad ogni iterazione un nuovo lato di costo minimo all'insieme A, se ciò non comporta il verificarsi di un ciclo.
+
+Kruskal ``naive'' è un algoritmo \textit{greedy} che non utilizza particolari strutture dati e che costruisce un MST aggiungendo ad ogni iterazione un nuovo lato di costo minimo all'insieme $A$, se ciò non comporta il verificarsi di un ciclo.
+
 \subsection{Strutture dati}
-\subsubsection{Graph}\label{kruskal_naive_graph}
-L'oggetto contiene le informazioni relative ad un grafo:
-\begin{itemize}
-	\item \textbf{n}: campo dati che indica numero di vertici;
-	\item \textbf{Le}: campo dati che contiene la lista degli archi;
-	\item \textbf{adj}: campo dati che contiene le liste di adiacenza tramite un dizionario;
-	\item \textbf{addEdge(u, v)}: metodo che dati due vertici in input ne aggiunge il collegamento nelle liste di adiacenza di entrambi i vertici;
-	\item \textbf{isConnected(s, t)}: metodo che dati due vertici in input ritorna \texttt{"True"} se essi sono connessi o \texttt{"False"} se non lo sono;
-	\item \textbf{buildGraph(input)}: metodo che dato in input il file che contiene la struttura di un grafo suddiviso per linee costruisce un oggetto \texttt{Graph()}.
-\end{itemize} 
-\subsubsection{Edge}\label{kruskal_naive_edge}
-L'oggetto edge contiene le informazioni relative ad un arco:
-\begin{itemize}
-	\item \textbf{v1}: vertice di partenza;
-	\item \textbf{v2}: vertice di arrivo;
-	\item \textbf{weight}: peso dell'arco.
-\end{itemize}
-\textbf{N.B.} Non vi è una vera e propria distinzione tra vertice di partenza e vertice di arrivo dato che il grafo non è orientato.
+	\subsubsection{Graph}\label{kruskal_naive_graph}
+	L'oggetto \textit{Graph} contiene le informazioni relative ad un grafo con:
+	\begin{itemize}
+		\item \texttt{\textbf{n}}: campo dati che indica numero di vertici;
+		\item \texttt{\textbf{Le}}: campo dati che contiene la lista degli archi;
+		\item \texttt{\textbf{adj}}: campo dati che contiene le liste di adiacenza tramite un dizionario;
+		\item \texttt{\textbf{addEdge(u, v)}}: metodo che dati due vertici in input ne aggiunge il collegamento nelle liste di adiacenza di entrambi i vertici;
+		\item \textbf{isConnected(s, t)}: metodo che dati due vertici in input ritorna \texttt{True} se essi sono connessi o \texttt{False} se non lo sono;
+		\item \textbf{buildGraph(input)}: metodo che dato in input il file che contiene la struttura di un grafo suddiviso per linee costruisce un oggetto \texttt{Graph()}.
+	\end{itemize} 
+
+	\subsubsection{Edge}\label{kruskal_naive_edge}
+		L'oggetto \textit{Edge} contiene le informazioni relative ad un arco:
+		\begin{itemize}
+			\item \texttt{\textbf{v1}}: vertice di partenza;
+			\item \texttt{\textbf{v2}}: vertice di arrivo;
+			\item \texttt{\textbf{weight}}: peso dell'arco.
+		\end{itemize}
+		\textbf{N.B.} Non vi è una vera e propria distinzione tra vertice di partenza e vertice di arrivo dato che il grafo non è orientato.
 
 \subsection{Implementazione}
-La soluzione del problema è stata implementata nel seguente modo:
-\begin{itemize}
-	\item Viene inizializzato il grafo G attraverso il costruttore \texttt{Graph()} al quale viene passato in input il numero di vertici estratti dalla prima riga del file di input .txt;
-	\item Viene costruito il grafo G tramite il metodo \texttt{buildGraph()}, al quale viene passato il grafo di input come parametro. La funzione, per ogni tripla (vertice1\_arco\_i, vertice2\_arco\_i, peso\_arco\_i) dell'input, aggiorna le liste di adiacenza di entrambi i vertici attraverso il metodo \texttt{addEdge()} e inserisce l'oggetto arco nella lista degli archi; 
-	\item Una volta creato il grafo, esso viene fornito come input all'algoritmo \texttt{Kruskal} che esegue i seguenti passi:
-	\begin{enumerate}
-		\item Viene inizializzato il grafo A con lo stesso numero di vertici del grafo di input. Esso ha lo scopo di tenere traccia degli archi aggiunti al MST;
-		\item Viene ordinata la lista contenente gli archi del grafo di input in maniera crescente in base al peso attraverso l'algoritmo MergeSort;
-		\item Per ogni arco viene verificato, attraverso il metodo isConnected della classe Graph, che la sua aggiunta al grafo A non porti alla creazione di un ciclo all'interno del medesimo grafo e in caso positivo l'arco viene aggiunto all'insieme A. In questo caso l'algoritmo non verifica che non ci sia un ciclo, ma verifica che non ci sia già un cammino che collega i due vertici in input, perché se così fosse allora l'aggiunta di un ulteriore cammino andrebbe sicuramente a costituire un ciclo in quel grafo. Il metodo isConnected è stato implementato con una variante iterativa di una BFS che dati in input due nodi \emph{s} e \emph{t} inizialmente considera tutti i vertici, a parte quello di partenza \emph{s}, come non visitati e tramite una coda vengono man mano visitati i nodi adiacenti fino ad arrivare al nodo \emph{t} se questo è raggiungibile da \emph{s}. Per ottimizzare l'algoritmo è possibile fermare il ciclo quando A ha \emph{n-1} lati, dove \emph{n} indica il numero di vertici.
-	\end{enumerate}
-\end{itemize}
+	La soluzione del problema è stata implementata nel seguente modo:
+	\begin{itemize}
+		\item Viene inizializzato il grafo $G$ attraverso il costruttore \texttt{Graph()}, al quale viene passato in input il numero di vertici estratti dalla prima riga del file di input \texttt{.txt};
+		\item Viene costruito il grafo $G$ tramite il metodo \texttt{buildGraph()}, al quale viene passato il grafo di input come parametro. 
+		La funzione, per ogni tripla ($vertice_1\_arco_i$, $vertice_2\_arco_i$, $peso\_arco_i$) in input, aggiorna le liste di adiacenza di entrambi i vertici attraverso il metodo \texttt{addEdge()} ed inserisce l'oggetto arco nella lista degli archi; 
+		\item Una volta creato il grafo, esso viene fornito come input all'algoritmo \texttt{Kruskal} che esegue i seguenti passi:
+		\begin{enumerate}
+			\item Viene inizializzato il grafo $A$ con lo stesso numero di vertici del grafo di input. 
+			Esso ha lo scopo di tenere traccia degli archi aggiunti al MST;
+			\item Viene ordinata la lista contenente gli archi del grafo di input in maniera crescente in base al peso attraverso l'algoritmo \textit{MergeSort};
+			\item Per ogni arco viene verificato, attraverso il metodo \texttt{isConnected()} della classe Graph, che la sua aggiunta al grafo $A$ non porti alla creazione di un ciclo all'interno del medesimo grafo e, in caso positivo, l'arco viene aggiunto all'insieme $A$. 
+			In questo caso l'algoritmo non verifica la non presenza di un ciclo, ma verifica che non ci sia già un cammino che collega i due vertici in input, in quanto se così fosse l'aggiunta di un ulteriore cammino andrebbe sicuramente a costituire un ciclo in quel grafo. 
+			Il metodo \texttt{isConnected()} è stato implementato con una variante iterativa di una BFS che dati in input due nodi $s$ e $t$ inizialmente considera tutti i vertici, a parte quello di partenza $s$, come non visitati e, tramite l'utilizzo di una coda, vengono man mano visitati i nodi adiacenti fino ad arrivare al nodo $t$, se questo è raggiungibile da $s$. 
+			Per ottimizzare l'algoritmo è possibile fermare il ciclo quando $A$ contiene $n-1$ lati, dove $n$ indica il numero di vertici.
+		\end{enumerate}
+	\end{itemize}
 
 \subsection{Complessità}
-La complessità dell'algoritmo è \textbf{O(mn)}, dove \emph{m} indica il numero totale di archi e \emph{n} il numero totale di vertici:
-\begin{itemize}
-	\item L'ordinamento degli archi in base al peso viene eseguito con l'algoritmo MergeSort che ha complessità \textbf{O(m log(m))};
-	\item Il ciclo \emph{for} viene eseguito in  \textbf{O(m)} iterazioni, ma è possibile fermare il ciclo quando l'insieme A raggiunge \emph{n-1} lati. Ad ogni iterazione viene chiamata la funzione \texttt{isConnected()} per verificare se il lato in esame può essere aggiunto alla soluzione che ha complessità lineare nel numero di vertici \textbf{O(n)}.
-\end{itemize}
+	La complessità dell'algoritmo è $O(mn)$, dove $m$ indica il numero totale di archi e $n$ il numero totale di vertici:
+	\begin{itemize}
+		\item L'ordinamento degli archi in base al peso viene eseguito con l'algoritmo MergeSort che ha complessità $O(m\log(m))$;
+		\item Il ciclo \texttt{for} viene eseguito in $O(m)$ iterazioni, ma è possibile fermare il ciclo quando l'insieme $A$ raggiunge $n-1$ lati. 
+		Ad ogni iterazione viene chiamata la funzione \texttt{isConnected()} per verificare se il lato in esame può essere aggiunto alla soluzione che ha complessità lineare nel numero di vertici $O(n)$.
+	\end{itemize}
 
 \pagebreak
