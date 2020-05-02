@@ -24,12 +24,12 @@ Infine, il lato selezionato viene aggiunto all'insieme $A$ e il vertice $v$ vien
 
 \subsection{Strutture dati}
 	
-	\subsubsection{Min-heap}
+	\subsubsection{MinHeap}
 		La struttura dati utilizzata per l'implementazione dell'algoritmo è la struttura \textit{min-heap}. 
-		Un \textit{heap} è composto da un array che può essere considerato come un albero binario quasi completo. 
+		Un \emph{MinHeap} è un oggetto composto da un array che può essere considerato come un albero binario quasi completo. 
 		Ogni nodo dell'albero corrisponde a un elemento dell'array. 
 		Tutti i livelli sono completamente riempiti, tranne eventualmente l'ultimo che può essere riempito da sinistra fino ad un certo punto.\\
-		Un array \texttt{A} che rappresenta un heap è un oggetto con due attributi:
+		Un array \texttt{A} che rappresenta un heap è un oggetto \emph{ArrayHeap}, il quale estende la classe \emph{List} e presenta attributi:
 		\begin{itemize}
 			\item \texttt{A.length}: numero degli elementi dell'array;
 			\item \texttt{A.heap-size}: numero degli elementi dell'heap che sono registrati nell'array.
@@ -37,11 +37,17 @@ Infine, il lato selezionato viene aggiunto all'insieme $A$ e il vertice $v$ vien
 		Cioè, anche se ci possono essere dei numeri memorizzati in tutto l'array \texttt{A[1 ... A.length]}, soltanto i numeri in \texttt{[1 ... A.heap-size]}, dove $0 \leq$ \texttt{A.heap-size} $\leq$ \texttt{A.length}, sono elementi validi dell'heap.\\
 		A partire dall'indice $i$ di un nodo è possibile accedere all'indice del padre, del figlio sinistro e del figlio destro nel seguente modo:
 		\begin{itemize}
-			\item \textbf{PARENT}: $\lfloor i/2 \rfloor$ 
-			\item \textbf{LEFT}: $2 \ast i$
-			\item \textbf{RIGHT}: $2 \ast i + 1$
+			\item \texttt{parent(i)}: $\lfloor i/2 \rfloor$ 
+			\item \texttt{left(i)}: $2 \ast i$
+			\item \texttt{right(i)}: $2 \ast i + 1$
 		\end{itemize}
-		Un \textit{min-heap} presenta la cosiddetta proprietà del \textit{min-heap}, secondo la quale, per ogni nodo diverso dalla radice, si ha che \texttt{A[PARENT(i)] $\leq$ A[i]}. Di conseguenza il più piccolo elemento in un min-heap è nella radice.
+		Un \textit{min-heap} presenta la cosiddetta proprietà del \textit{min-heap}, secondo la quale, per ogni nodo diverso dalla radice, si ha che \texttt{A[parent(i)] $\leq$ A[i]}. Di conseguenza il più piccolo elemento in un min-heap è nella radice.
+		Le altre informazioni relative all'oggetto \emph{MinHeap} sono le seguenti:
+		\begin{itemize}
+				\item \texttt{\textbf{minHeapify(i)}}: metodo che permette di mantenere la proprietà del min-heap a partire dall'indice \texttt{i};
+				\item \texttt{\textbf{bubbleUp(i)}}: metodo che permette di mantenere la proprietà del min-heap, riposizionando l'elemento di indice \texttt{i} dell'array-heap nella posizione corretta, risalendo di padre in padre;
+				\item \texttt{\textbf{extractMin()}}: metodo che estrae il minimo dall'array-heap, cioè la radice dell'albero, e ristabilisce la proprietà del min-heap tramite la chiamata a \texttt{minHeapify(i)}.
+		\end{itemize}
 		
 	\subsubsection{Node}
 	L'oggetto \textit{Node} rappresenta un vertice del grafo. 
@@ -60,7 +66,13 @@ Infine, il lato selezionato viene aggiunto all'insieme $A$ e il vertice $v$ vien
 		Il suo unico campo dati è \texttt{nodes}, un dizionario di oggetti di tipo \texttt{Node}. 
 		Il tipo dizionario utilizzato è \texttt{defaultDict} di Python. 
 		La scelta di utilizzare questo tipo di dizionario è dovuta al fatto che l'oggetto viene inizializzato con una funzione che fornisce un valore di default nel caso si utilizzi una chiave non esistente. 
-		In questo modo non vengono sollevate eccezioni del tipo \textit{``KeyError''}.
+		In questo modo non vengono sollevate eccezioni del tipo \textit{``KeyError''}.\\
+		Le altre informazioni relative all'oggetto \emph{Graph} sono le seguenti:
+		\begin{itemize}
+			\item \texttt{\textbf{createNodes(n)}}: metodo che instanzia \texttt{n} vertici nel dizionario \texttt{nodes};
+			\item \texttt{\textbf{addNode(u, v, cost)}}: metodo che aggiorna le liste di adiacenza dei nodi \texttt{u} e \texttt{v}, inserendo inoltre, in entrambe, il peso dell'arco che li collega;
+			\item \texttt{\textbf{buildGraph(n)}}: metodo principale per la costruzione del grafo. Esso prima chiama il metodo \texttt{createNodes(n)}  e, successivamente, il metodo \texttt{addNode(u, v, cost)} per ogni vertice di input.
+		\end{itemize}
 
 \subsection{Implementazione}
 
