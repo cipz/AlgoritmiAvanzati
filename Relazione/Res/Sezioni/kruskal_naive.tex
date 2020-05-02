@@ -20,8 +20,8 @@ Kruskal ``naive'' è un algoritmo \textit{greedy} che non utilizza particolari s
 		\item \texttt{\textbf{Le}}: campo dati che contiene la lista degli archi;
 		\item \texttt{\textbf{adj}}: campo dati che contiene le liste di adiacenza tramite un dizionario;
 		\item \texttt{\textbf{addEdge(u, v)}}: metodo che dati due vertici in input ne aggiunge il collegamento nelle liste di adiacenza di entrambi i vertici;
-		\item \textbf{isConnected(s, t)}: metodo che dati due vertici in input ritorna \texttt{True} se essi sono connessi o \texttt{False} se non lo sono;
-		\item \textbf{buildGraph(input)}: metodo che dato in input il file che contiene la struttura di un grafo suddiviso per linee costruisce un oggetto \texttt{Graph()}.
+		\item \texttt{isConnected(s, t)}: metodo che dati due vertici in input ritorna \texttt{True} se essi sono connessi o \texttt{False} se non lo sono;
+		\item \texttt{buildGraph(input)}: metodo che dato in input il file che contiene la struttura di un grafo suddiviso per linee costruisce un oggetto \texttt{Graph()}.
 	\end{itemize} 
 
 	\subsubsection{Edge}\label{kruskal_naive_edge}
@@ -36,7 +36,7 @@ Kruskal ``naive'' è un algoritmo \textit{greedy} che non utilizza particolari s
 \subsection{Implementazione}
 	La soluzione del problema è stata implementata nel seguente modo:
 	\begin{itemize}
-		\item Viene inizializzato il grafo $G$ attraverso il costruttore \texttt{Graph()}, al quale viene passato in input il numero di vertici estratti dalla prima riga del file di input \texttt{.txt};
+		\item Viene inizializzato il grafo $G$ attraverso il costruttore \texttt{Graph()}, al quale viene passato in input il numero di vertici estratti dalla prima riga del file di input in formato \texttt{.txt};
 		\item Viene costruito il grafo $G$ tramite il metodo \texttt{buildGraph()}, al quale viene passato il grafo di input come parametro. 
 		La funzione, per ogni tripla ($vertice_1\_arco_i$, $vertice_2\_arco_i$, $peso\_arco_i$) in input, aggiorna le liste di adiacenza di entrambi i vertici attraverso il metodo \texttt{addEdge()} ed inserisce l'oggetto arco nella lista degli archi; 
 		\item Una volta creato il grafo, esso viene fornito come input all'algoritmo \texttt{Kruskal} che esegue i seguenti passi:
@@ -44,9 +44,9 @@ Kruskal ``naive'' è un algoritmo \textit{greedy} che non utilizza particolari s
 			\item Viene inizializzato il grafo $A$ con lo stesso numero di vertici del grafo di input. 
 			Esso ha lo scopo di tenere traccia degli archi aggiunti al MST;
 			\item Viene ordinata la lista contenente gli archi del grafo di input in maniera crescente in base al peso attraverso l'algoritmo \textit{MergeSort};
-			\item Per ogni arco viene verificato, attraverso il metodo \texttt{isConnected()} della classe Graph, che la sua aggiunta al grafo $A$ non porti alla creazione di un ciclo all'interno del medesimo grafo e, in caso positivo, l'arco viene aggiunto all'insieme $A$. 
+			\item Per ogni arco viene verificato, attraverso il metodo \texttt{isConnected()} della classe \texttt{Graph}, che la sua aggiunta al grafo $A$ non porti alla creazione di un ciclo all'interno del medesimo grafo e, in caso positivo, l'arco viene aggiunto all'insieme $A$. 
 			In questo caso l'algoritmo non verifica la non presenza di un ciclo, ma verifica che non ci sia già un cammino che collega i due vertici in input, in quanto se così fosse l'aggiunta di un ulteriore cammino andrebbe sicuramente a costituire un ciclo in quel grafo. 
-			Il metodo \texttt{isConnected()} è stato implementato con una variante iterativa di una BFS che dati in input due nodi $s$ e $t$ inizialmente considera tutti i vertici, a parte quello di partenza $s$, come non visitati e, tramite l'utilizzo di una coda, vengono man mano visitati i nodi adiacenti fino ad arrivare al nodo $t$, se questo è raggiungibile da $s$. 
+			Il metodo \texttt{isConnected()} è stato implementato con una variante iterativa di una \textit{BFS} che, dati in input due nodi $s$ e $t$, inizialmente considera tutti i vertici, a parte quello di partenza $s$, come non visitati e, tramite l'utilizzo di una coda, vengono man mano visitati i nodi adiacenti fino ad arrivare al nodo $t$, se questo è raggiungibile da $s$. 
 			Per ottimizzare l'algoritmo è possibile fermare il ciclo quando $A$ contiene $n-1$ lati, dove $n$ indica il numero di vertici.
 		\end{enumerate}
 	\end{itemize}

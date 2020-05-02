@@ -52,12 +52,12 @@ Infine, il lato selezionato viene aggiunto all'insieme $A$ e il vertice $v$ vien
 		\item \texttt{\textbf{parent}}: padre del vertice, il suo valore di default è \texttt{None};
 		\item \texttt{\textbf{isPresent}}: variabile booleana che memorizza la presenza di un nodo nell'array che rappresenta l'heap. Il suo valore di default è \texttt{True};
 		\item \texttt{\textbf{index}}: indice dell'array del min-heap associato al vertice; 
-		\item \texttt{\textbf{adjacencyList}}: lista di adiacenza del vertice, l suo valore di default è la lista vuota
+		\item \texttt{\textbf{adjacencyList}}: lista di adiacenza del vertice, il suo valore di default è la lista vuota.
 	\end{itemize}
 	
 	\subsubsection{Graph}
 		L'oggetto \textit{Graph} permette di gestire la creazione e la costruzione di un grafo secondo le caratteristiche specificate nel file \texttt{.txt} dato in input. 
-		Il suo unico campo dati è \texttt{nodes}, un dizionario di oggetti di tipo Node. 
+		Il suo unico campo dati è \texttt{nodes}, un dizionario di oggetti di tipo \texttt{Node}. 
 		Il tipo dizionario utilizzato è \texttt{defaultDict} di Python. 
 		La scelta di utilizzare questo tipo di dizionario è dovuta al fatto che l'oggetto viene inizializzato con una funzione che fornisce un valore di default nel caso si utilizzi una chiave non esistente. 
 		In questo modo non vengono sollevate eccezioni del tipo \textit{``KeyError''}.
@@ -117,11 +117,11 @@ Infine, il lato selezionato viene aggiunto all'insieme $A$ e il vertice $v$ vien
 	La complessità dell'algoritmo è $O(m\log(n))$, dove $m$ indica il numero totale di archi e $n$ il numero totale di vertici:
 	\begin{itemize}
 		\item L'inizializzazione della struttura min-heap, nel caso peggiore, richiede un tempo di esecuzione $O(n)$;
-		\item L'operazione \texttt{extractMin()} ha un tempo di esecuzione di $O(log(n))$ e viene ripetuta $n$ volte all'interno del ciclo \emph{while}. Il costo totale quindi è \textbf{O(nlog(n))};
+		\item L'operazione \texttt{extractMin()} ha un tempo di esecuzione di $O(\log(n))$ e viene ripetuta $n$ volte all'interno del ciclo \texttt{while}. Il costo totale quindi è $O(n\log(n))$;
 		\item Il ciclo \texttt{for} viene eseguito $O(m)$ volte, in quanto la somma delle lunghezze delle liste di adiacenza è $2|m|$. All'interno del ciclo \texttt{for}, il test che verifica l'appartenenza di un vertice adiacente alla struttura min-heap è eseguito in tempo costante $O(1)$. 
-		Infine, l'operazione \texttt{bubbleUp()} per il ripristino della proprietà del min-heap è eseguita in tempo $O(log(n))$. 
-		Il costo totale quindi è $O(mlog(n))$;
+		Infine, l'operazione \texttt{bubbleUp()} per il ripristino della proprietà del min-heap è eseguita in tempo $O(\log(n))$. 
+		Il costo totale quindi è $O(m\log(n))$;
 	\end{itemize}
-	Sommando questi dati il tempo totale dell'algoritmo è $O(nlog(n) + mlog(n))) = O(mlog(n))$.
+	Sommando questi dati il tempo totale dell'algoritmo è $O(n\log(n) + m\log(n))) = O(m\log(n))$.
 	
 \pagebreak

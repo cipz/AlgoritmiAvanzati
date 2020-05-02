@@ -24,17 +24,17 @@ Come per la sua versione naive, l'implementazione di Kruskal tramite l'uso della
 	\subsubsection{Union Find}
 		La struttura dati \textit{Union Find} (o \textit{Disjoint-Set}) mantiene una collezione di insiemi dinamici disgiunti (chiamati anche \textit{componenti connesse}) $S = \{s_1, s_2, ... , s_n\}$.
 		Viene implementata tramite un array e visualizzabile come un insieme di alberi diretti, in quanto c'è una relazione padre-figlio dove ciascun nodo figlio punta al proprio padre.\\
-		Per ogni elemento di questo array viene salvato un campo parent che, al momento dell'inizializzazione, contiene l'indice dell'array dell'oggetto x.\\
+		Per ogni elemento di questo array viene salvato un campo \texttt{parent} che, al momento dell'inizializzazione, contiene l'indice dell'array dell'oggetto \texttt{x}.\\
 		Per ciascun insieme dell'oggetto Union Find c'è un elemento che lo rappresenta, detto anche \textit{root}. 
 		La profondità di questi insiemi è pari al numero di elementi compresi tra l'ultimo nodo figlio e la root.\\
 		Le operazioni permesse sugli elementi di questa struttura dati sono:
 		\begin{itemize}
-			\item \texttt{\textbf{Initialize(x)}} o \texttt{\textbf{Make-Set(x)}}: metodo che dato un insieme di oggetti $X = \{x_1, x_2, ... , x_n\}$ crea una struttura dati Union Find nella ciascun elemento di $x_i \in X$ viene creato un set con root $x_i$.
+			\item \texttt{\textbf{Initialize(x)}} o \texttt{\textbf{Make-Set(x)}}: metodo che, dato un insieme di oggetti $X = \{x_1, x_2, ... , x_n\}$, crea una struttura dati Union Find nella quale per ciascun elemento $x_i \in X$ viene creato un set con root $x_i$.
 			Questa operazione ha complessità lineare sul numero di elementi in $X$, quindi $O(n)$;
 			\item \texttt{\textbf{Find(x)}}: metodo che ritorna la radice dell'insieme in cui è contenuto l'elemento $x$ passato in input, risalendo di padre in padre fino a trovare un \textit{self loop}, ovvero trova un elemento che punta a se stesso. 
 			La sua complessità è proporzionale alla profondità della radice di $x$, quindi nel caso peggiore è $O(n)$;
-			\item \texttt{\textbf{Union(x, y)}}: metodo che prende in input due oggetti e, se questi fanno parte di due insiemi disgiunti diversi, unisce le due componenti connesse che li contengono facendo puntare la radice dell'albero con profondità minore a quella del secondo albero, minimizzando quindi la profondità totale. \\
-			La complessità di questa operazione è $O(log n)$ e viene dominata dalla complessità della precedente funzione \texttt{\textbf{Find}}.
+			\item \texttt{\textbf{Union(x, y)}}: metodo che, prende in input due oggetti e, se questi fanno parte di due insiemi disgiunti diversi, unisce le due componenti connesse che li contengono facendo puntare la radice dell'albero con profondità minore a quella del secondo albero, minimizzando quindi la profondità totale. \\
+			La complessità di questa operazione è $O(\log n)$ e viene dominata dalla complessità della precedente funzione \texttt{\textbf{Find}}, che viene richiamata al suo interno.
 		\end{itemize}
 
 	\subsection{Implementazione}
@@ -42,29 +42,28 @@ Come per la sua versione naive, l'implementazione di Kruskal tramite l'uso della
 		\begin{itemize}
 			\item viene inizializzato il grafo $G$ attraverso il costruttore \texttt{Graph()};
 			\item viene costruito il grafo $G$ tramite il metodo \texttt{buildGraph()}, al quale viene passato il grafo di input come parametro.
-			La funzione, per ogni tripla ($vertice_1\_arco_i$, $vertice_2\_arco_i$, $peso\_arco_i$) dell'input, aggiorna le liste di adiacenza di entrambi i vertici attraverso il metodo \texttt{addEdge()} e inserisce l'oggetto arco nella lista degli archi; 
+			La funzione, per ogni tripla ($vertice_1\_arco_i$, $vertice_2\_arco_i$, $peso\_arco_i$) dell'input, aggiorna le liste di adiacenza di entrambi i vertici attraverso il metodo \texttt{addEdge()} ed inserisce l'oggetto arco nella lista degli archi; 
 			\item una volta creato il grafo, esso viene fornito come input all'algoritmo \texttt{KruskalUF} che esegue i seguenti passi:
 			\begin{enumerate}  				
 				\item viene definito $A$ un insieme vuoto, a questo vengono aggiunti ad ogni iterazione i lati che andranno a costituire la soluzione;
 				\item viene inizializzata la struttura di insiemi disgiunti $U$ passando l'insieme di nodi del grafo al suo costruttore, questo crea un insieme per ciascun nodo del grafo;
-				\item utilizzando l'algoritmo \textit{MergeSort}, viene ordinata la lista contenente gli archi del grafo di input in maniera crescente;		
-				\item viene iterata la lista di lati ordinata e per ciascuno di questi viene controllato se gli insiemi dei suoi nodi coincidono confrondandone la root, se queste sono diverse significa i nodi sono in due componenti connesse distinte, in tal caso viene aggiungo il lato al grafo di soluzione $A$ aggiornando la situazione delle componenti connesse.
+				\item utilizzando l'algoritmo MergeSort, viene ordinata la lista contenente gli archi del grafo di input in maniera crescente;		
+				\item viene iterata la lista di lati ordinata e per ciascuno di questi viene controllato se gli insiemi dei suoi nodi coincidono confrondandone la root. Se queste sono diverse significa i nodi sono in due componenti connesse distinte, in tal caso viene aggiungo il lato al grafo di soluzione $A$ aggiornando la situazione delle componenti connesse.
 			\end{enumerate}
 		\end{itemize}
 	
 	\subsection{Complessità}
-		Per calcolare la complessità totale dell'algoritmo bisogna tenere in conto:
+		Per calcolare la complessità totale dell'algoritmo bisogna tenere in considerazione:
 		\begin{itemize}
 			\item il costo $O(n)$ dell'inizializzazione della struttura dati Union Find;
-			\item il MergeSort con complessità $O(m log(n))$, dove $m$ indica il numero di archi;
+			\item il MergeSort con complessità $O(m\log(m))$, dove $m$ indica il numero di archi;
 			\item le operazioni del ciclo, effettuate al massimo $m$ volte:
-			%TODO Verificare complessità correttamente
 			\begin{itemize}
-				\item le due operazioni di Find ($2m$ in totale) con complessità $O(m \log n)$
-				\item le $n-1$ operazioni di union (eseguita ogni volta che viene aggiunto un nuovo lato) con complessità $O(n \log n)$
+				\item le due operazioni di \texttt{Find} ($2m$ in totale) con complessità $O(m\log(n))$
+				\item le $n-1$ operazioni di \texttt{Union} (eseguita ogni volta che viene aggiunto un nuovo lato) con complessità $O(n \log(n))$
 				\item l'aggiornamento di $A$ ha un costo lineare, quindi con complessità $O(m)$
 			\end{itemize}
 		\end{itemize}
-		La complessità dell'intero algoritmo è quindi $O(mlogn)$.
+		La complessità dell'intero algoritmo è quindi $O(m\log(n))$.
 
 \pagebreak
