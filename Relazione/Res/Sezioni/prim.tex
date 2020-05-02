@@ -110,6 +110,9 @@ Infine, il lato selezionato viene aggiunto all'insieme $A$ e il vertice $v$ vien
 			In questo caso l'array-heap sarà costruito utilizzando la lista di input;
 			\item Se il vertice di partenza ha \texttt{tag != 1} l'array-heap viene costruito in modo analogo a prima. 
 			Dopodiché il nodo di partenza viene posto in testa all'array-heap e tutti i campi \texttt{index} di tutti vertici vengono aggiornati.
+			\begin{figure}[H]
+				\hspace{-1cm}\includegraphics[width=18.5cm]{Img/arrayheap.jpg}
+			\end{figure}
 		\end{itemize}
 		Posizionare il nodo di partenza in testa all'array-heap assicura che la proprietà del min-heap venga rispettata. 
 		Il compromesso è l'aggiornamento di tutti i campi \texttt{index}, eseguibile in tempo lineare nel numero di vertici;
