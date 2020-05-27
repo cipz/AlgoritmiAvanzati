@@ -1,3 +1,47 @@
-\section{Euristiche costruttive}\label{kruskal_naive}
+\section{Euristiche costruttive}\label{constructive_heuristic}
 
+Il termine euristiche costruttive identifica un'ampia famiglia di euristiche che costruiscono la soluzione finale aggiungendo un vertice alla volta seguendo uno schema prefissato. Tra le euristiche disponibili, l'algoritmo implementato è \texttt{Nearest Neighbor}. 
+
+\begin{lstlisting}[mathescape=true]
+Nearest_Neighbor (V) // V = list of vertexes
+	1) 'Initialization'
+	   Select $v_0$ from V as starting vertex of the partial path
+	2) 'Selection'
+	   Given ($v_0$...$v_k$) as partial path, the next vertex $v_{k+1}$ not added yet 
+	   to the partial path is the nearest one to $v_k$. 
+	3) 'Insertion'
+	   Insert $v_{k+1}$ right after $v_k$ in the partial path
+	4) Repeat the process from the step (2) until all the vertexes have
+	   been inserted
+	5) Close the path inserting the starting vertex $v_0$ at the end of the
+	   partial path ($v_0$...$v_n$)
+\end{lstlisting}
+
+La soluzione ritornata dall'euristica è $log(n)$-approssimata a TSP.
+
+\subsection{Funzioni}
+L'implementazione del problema non ha richiesto particolari strutture dati. Di conseguenza sono state create delle apposite funzioni per la costruzione dell'algoritmo:
+\begin{itemize}
+	\item \texttt{\textbf{closest\_vertex(p, V)}}: metodo che permette di calcolare la distanza minima tra il vertice \texttt{p}, il quale è si trova in coda alla lista di vertici del cammino, e la lista di vertici \texttt{V} non ancora inseriti. Una volta individuato il vertice più vicino, questo viene ritornato insieme alla distanza calcolata;
+	\item \texttt{\textbf{nearest\_neighbor(V)}}: metodo che permette di costruire il circuito hamiltoniano seguendo le regole dell'euristica \texttt{Nearest Neighbor}. 
+\end{itemize}
+
+\subsection{Implementazione}
+ La soluzione finale è la seguente:
+\begin{itemize}
+	\item Viene dichiarata una variabile locale \texttt{shortest\_distance} per memorizzare la distanza minima finale, alla quale viene assegnato il valore iniziale $\infty$;
+	\item Il ciclo esterno scorre la lista di vertici \texttt{V}. In questo modo, ad ogni iterazione, il cammino iniziale viene instanziato con un vertice di partenza diverso; 
+	\begin{enumerate}
+		\item Viene eseguita una copia profonda \texttt{C} della lista \texttt{V}. La copia ottenuta è utilizzata per effettuare le operazioni di costruzione del cammino, mentre la lista originale rimane invariata;
+		\item Inizializzazione: viene inizializzato il cammino iniziale contenente il vertice di partenza, il quale viene rimosso da \texttt{C};
+		\item Viene dichiarata una variabile locale \texttt{current\_distance} per memorizzare la distanza del cammino corrente;
+	\end{enumerate}
+	\item A questo punto inizia il ciclo interno. Il processo di iterazione continua finché tutti i vertici di \texttt{C} sono stati visitati;
+	\begin{enumerate}
+		\item Selezione: avviene la chiamata alla funzione \texttt{closest\_vertex(p, V)};
+		\item Inserimento: il vertice ritornato nella fase precedente viene inserito in coda al cammino parziale e rimosso da \texttt{C};
+	\end{enumerate}  
+	\item Una volta completato il ciclo interno, viene chiuso il ciclo inserendo nuovamente il vertice di partenza;
+	\item Vengono confrontate le due variabili locali: se \texttt{current\_distance} $<$ \texttt{shortest\_distance}, allora \texttt{current\_distance} viene memorizzata come la soluzione finale provvisoria.
+\end{itemize}
 \pagebreak
