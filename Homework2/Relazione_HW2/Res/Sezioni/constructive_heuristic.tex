@@ -1,6 +1,6 @@
 \section{Euristiche costruttive}\label{constructive_heuristic}
 
-Il termine euristiche costruttive identifica un'ampia famiglia di euristiche che costruiscono la soluzione finale aggiungendo un vertice alla volta seguendo uno schema prefissato. Tra le euristiche disponibili, l'algoritmo implementato è \texttt{Nearest Neighbor}. 
+Il termine euristiche costruttive identifica un'ampia famiglia di euristiche che costruiscono la soluzione finale aggiungendo un vertice alla volta seguendo uno schema prefissato. Tra le euristiche disponibili, l'algoritmo implementato è \texttt{Nearest Neighbor}. Questo tipo di algoritmo ha una natura \textit{greedy}, in quanto va ad aggiungere il vertice più vicino al vertice attualmente in coda al cammino parziale.
 
 \begin{lstlisting}[mathescape=true]
 Nearest_Neighbor (V) // V = list of vertexes
@@ -43,5 +43,13 @@ L'implementazione del problema non ha richiesto particolari strutture dati. Di c
 	\end{enumerate}  
 	\item Una volta completato il ciclo interno, viene chiuso il ciclo inserendo nuovamente il vertice di partenza;
 	\item Vengono confrontate le due variabili locali: se \texttt{current\_distance} $<$ \texttt{shortest\_distance}, allora \texttt{current\_distance} viene memorizzata come la soluzione finale provvisoria.
+\end{itemize}
+
+\subsection{Complessità}
+L'algoritmo \texttt{Nearest Neighbor} può essere implementato in tempo proporzionale a $n^2$, dove $n$ è il numero di vertici del grafo.
+\begin{itemize}
+	\item La ricerca del vertice a distanza minima da un dato vertice ha complessità $O(n)$;
+	\item La ricerca precedente avviene per tutti gli $n$ vertici. Complessità finale $O(n^2)$;
+	
 \end{itemize}
 \pagebreak
