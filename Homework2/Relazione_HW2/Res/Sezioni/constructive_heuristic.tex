@@ -29,24 +29,20 @@ L'implementazione del problema non ha richiesto particolari strutture dati. Di c
 \subsection{Implementazione}
  La soluzione finale è la seguente:
 \begin{itemize}
-	\item Viene dichiarata una variabile locale \texttt{shortest\_distance} per memorizzare la distanza minima finale, alla quale viene assegnato il valore iniziale $\infty$;
-	\item Il ciclo esterno scorre la lista di vertici \texttt{V}. In questo modo, ad ogni iterazione, il cammino iniziale viene instanziato con un vertice di partenza diverso; 
-	\begin{enumerate}
-		\item Viene eseguita una copia profonda \texttt{C} della lista \texttt{V}. La copia ottenuta è utilizzata per effettuare le operazioni di costruzione del cammino, mentre la lista originale rimane invariata;
-		\item Inizializzazione: viene inizializzato il cammino iniziale contenente il vertice di partenza, il quale viene rimosso da \texttt{C};
-		\item Viene dichiarata una variabile locale \texttt{current\_distance} per memorizzare la distanza del cammino corrente;
-	\end{enumerate}
+	\item Viene eseguita una copia profonda \texttt{C} della lista \texttt{V}. La copia ottenuta è utilizzata per effettuare le operazioni di costruzione del cammino, mentre la lista originale rimane invariata;
+	\item Inizializzazione: viene inizializzato il cammino iniziale contenente il vertice di partenza, il quale viene rimosso da \texttt{C};
+	\item Viene dichiarata una variabile locale \texttt{current\_distance} per memorizzare la distanza del cammino corrente;
 	\item A questo punto inizia il ciclo interno. Il processo di iterazione continua finché tutti i vertici di \texttt{C} sono stati visitati;
 	\begin{enumerate}
 		\item Selezione: avviene la chiamata alla funzione \texttt{closest\_vertex(p, V)};
 		\item Inserimento: il vertice ritornato nella fase precedente viene inserito in coda al cammino parziale e rimosso da \texttt{C};
 	\end{enumerate}  
-	\item Una volta completato il ciclo interno, viene chiuso il ciclo inserendo nuovamente il vertice di partenza;
-	\item Vengono confrontate le due variabili locali: se \texttt{current\_distance} $<$ \texttt{shortest\_distance}, allora \texttt{current\_distance} viene memorizzata come la soluzione finale provvisoria.
+	\item Una volta completato il ciclo interno, viene chiuso il ciclo hamiltoniano inserendo nuovamente il vertice di partenza;
+	\item La distanza totale calcolata viene ritornata come risultato dell'algoritmo.
 \end{itemize}
 
 \subsection{Complessità}
-L'algoritmo \texttt{Nearest Neighbor} può essere implementato in tempo proporzionale a $n^2$, dove $n$ è il numero di vertici del grafo.
+L'algoritmo \texttt{Nearest Neighbor} può essere implementato in tempo proporzionale a $n^2$, dove $n$ è il numero di vertici del grafo:
 \begin{itemize}
 	\item La ricerca del vertice a distanza minima da un dato vertice ha complessità $O(n)$;
 	\item La ricerca precedente avviene per tutti gli $n$ vertici. Complessità finale $O(n^2)$;
