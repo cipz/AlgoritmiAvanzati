@@ -4,12 +4,12 @@ Il termine euristiche costruttive identifica un'ampia famiglia di euristiche che
 
 \begin{lstlisting}[mathescape=true]
 Nearest_Neighbor (V) // V = list of vertexes
-	1) 'Initialization'
+	1) \\ Initialization
 	   Select $v_0$ from V as starting vertex of the partial path
-	2) 'Selection'
+	2) \\ Selection
 	   Given ($v_0$...$v_k$) as partial path, the next vertex $v_{k+1}$ not added yet 
 	   to the partial path is the nearest one to $v_k$. 
-	3) 'Insertion'
+	3) \\ Insertion
 	   Insert $v_{k+1}$ right after $v_k$ in the partial path
 	4) Repeat the process from the step (2) until all the vertexes have
 	   been inserted
