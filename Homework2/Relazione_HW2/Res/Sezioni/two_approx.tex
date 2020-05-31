@@ -1,4 +1,49 @@
 \section{Algoritmo 2-approssimato}\label{two_approx}
 
+\begin{lstlisting}[mathescape=true]
+APPROX-TSP-TOUR(G, c)
+	select a vertex r $\in$ G.V to be a root vertex
+	compute a MST T for G from root r using MST-PRIM(G, c, r)
+	let H be a list of vertices, ordered according to when they are first visited in a preordered tree walk of T
+	return the hamiltonian cycle H
+\end{lstlisting}	
+
+L'algoritmo di 2-approssimazione utilizza come sottoprocedura l'algoritmo di Prim, che fornisce un MST il cui peso fornisce un lower bound sulla lunghezza del ciclo della soluzione ottima del TSP sul grafo dato.\\
+Questo algoritmo sfrutta la disuguaglianza angolare, ovvero dati tre nodi A, B, C, la distanza tra A e C può al massimo essere la distanza tra A e B sommata alla distanza tra B e C.\\
+Fintanto che la funzione del costo soddisfa tale regola, viene utilizzato il minimum spanning tree per creare un ciclo con un costo che è massimo due volte il costo della soluzione ottima, per questo si dice 2-approssimato.
+
+\subsection{Strutture dati}
+
+	Per implementare l'algoritmo di 2-approssimazione è stato necessario l'utilizzo dell'algoritmo di Prim, che richiede la struttura dati Heap.
+	Questa è stata presa dalla soluzione del primo homework e adattata in maniera da poter essere utilizzata con gli indici presenti nel dataset e con grafi completi.\\
+	Sono state riutilizzate anche le strutture dati Graph e Node, adattando la prima per la costruzione di grafi completi.\\
+	Si rimanda quindi alla relazione del primo homework per la spiegazione dettagliata di queste classi e dei loro metodi.
+	
+\subsection{Metodi}
+	
+	I metodi ausiliari utilizzati per calcolare la soluzione dell'algoritmo di 2-approssimazione per TSP sono i seguenti:
+	\begin{itemize}
+		\item \texttt{\textbf{MSTPrim}}: metodo che ritorna l'MST di un grafo in input partendo dal nodo dato; 
+		\item \texttt{\textbf{preorder}}: presi in input la mappa dei successori e il vertice di partenza, ritorna una lista della visita in profondità dell'albero a partire da tale nodo; 
+		\item \texttt{\textbf{mst\_to\_tree}}: data in input la mappa dei predecessori ciascun nodo, la converte in un albero; 
+		\item \texttt{\textbf{ham\_circ\_weight}}: metodo che, dato in input un ciclo hamiltoniano di un grafo, ne calcola il peso.
+	\end{itemize}
+	Le operazioni principali che implementano l'algoritmo di 2-approssimazione vengono eseguite nel metodo \texttt{\textbf{two\_approximation}}.
+
+\subsection{Implementazione}
+	
+	La soluzione del problema è stata implementata nel seguente modo:
+	\begin{itemize}
+		\item viene costruito il grafo g a partire dai lista di vertici letta dal file in input;
+		\item si utilizza l'algoritmo di Prim per calcolare l'MST del grafo appena creato;
+		\item tale MST viene convertito, tramite l'uso della funzione preorder, in una lista che rappresenta il padri di ciascun nodo;
+		\item andando a riordinare questa lista tramite la funzione preorder, ottenendo quindi un ciclo hamiltoniano al quale, per chiudere il ciclo, viene appeso in coda il primo nodo, con indice 0;
+		\item viene quindi calcolata la soluzione finale andando a sommare i pesi degli archi che collegano i nodi del ciclo.
+	\end{itemize}
+		
+\subsection{Complessità}
+
+	Per calcolare la complessità di questo algoritmo bisogna tenere in considerazione anche le operazioni che vengono svolte da Prim e , di conseguenza, quelle svolte sullo heap.\\
+	La complessità totale è quindi $O(|V|^2)$, dove V indica la lista di vertici del grafo.
 
 \pagebreak
