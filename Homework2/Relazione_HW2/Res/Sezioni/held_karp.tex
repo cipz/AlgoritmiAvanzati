@@ -27,8 +27,8 @@ L'algoritmo si basa sulle seguenti strutture dati:
 \begin{itemize}
 	\item \texttt{V}: vettore di coppie in formato \texttt{(i, [x, y])} dove \texttt{i} rappresenta l'indice progressivo nell'insieme \texttt{\{0, .., n - 1\}} e \texttt{[x, y]} corrisponde alle coordinate del punto;
 	\item \texttt{subsets}: dizionario usato per enumerare i sottoinsiemi di \texttt{V};
-	\item \texttt{d[v, S]}: vettore a due dimensioni che contiene il peso del cammino minimo che parte da 0 e termina in \texttt{v}, visitando tutti i nodi in \texttt{S};
-	\item \texttt{phi[v, S]}: vettore a due dimensioni che contiene il predecessore di \texttt{v} nel cammino minimo.
+	\item \texttt{d}: dizionario che usa come chiavi le coppie \texttt{(v, S)} e come valore il peso del cammino minimo che parte da 0 e termina in \texttt{v}, visitando tutti i nodi in \texttt{S};
+	\item \texttt{phi}: dizionario che usa come chiavi le coppie \texttt{(v, S)} e come valore il predecessore di \texttt{v} nel cammino minimo.
 \end{itemize}
 
 
