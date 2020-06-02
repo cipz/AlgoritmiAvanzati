@@ -22,7 +22,7 @@ La soluzione ritornata dall'euristica è $log(n)$-approssimata a TSP.
 \subsection{Funzioni}
 L'implementazione del problema non ha richiesto particolari strutture dati. Di conseguenza sono state create delle apposite funzioni per la costruzione dell'algoritmo:
 \begin{itemize}
-	\item \texttt{\textbf{closest\_vertex(p, V)}}: metodo che permette di calcolare la distanza minima tra il vertice \texttt{p}, il quale è si trova in coda alla lista di vertici del cammino, e la lista di vertici \texttt{V} non ancora inseriti. Una volta individuato il vertice più vicino, questo viene ritornato insieme alla distanza calcolata;
+	\item \texttt{\textbf{closest\_vertex(p, V)}}: metodo che permette di calcolare la distanza minima tra il vertice \texttt{p}, il quale si trova in coda alla lista di vertici del cammino, e la lista di vertici \texttt{V} non ancora inseriti. Una volta individuato il vertice più vicino, questo viene ritornato insieme alla distanza calcolata;
 	\item \texttt{\textbf{nearest\_neighbor(V)}}: metodo che permette di costruire il circuito hamiltoniano seguendo le regole dell'euristica \texttt{Nearest Neighbor}. 
 \end{itemize}
 
@@ -32,12 +32,12 @@ L'implementazione del problema non ha richiesto particolari strutture dati. Di c
 	\item Viene eseguita una copia profonda \texttt{C} della lista \texttt{V}. La copia ottenuta è utilizzata per effettuare le operazioni di costruzione del cammino, mentre la lista originale rimane invariata;
 	\item Inizializzazione: viene inizializzato il cammino iniziale contenente il vertice di partenza, il quale viene rimosso da \texttt{C};
 	\item Viene dichiarata una variabile locale \texttt{current\_distance} per memorizzare la distanza del cammino corrente;
-	\item A questo punto inizia il ciclo interno. Il processo di iterazione continua finché tutti i vertici di \texttt{C} sono stati visitati;
+	\item A questo punto inizia il ciclo interno: il processo di iterazione continua finché tutti i vertici di \texttt{C} sono stati visitati;
 	\begin{enumerate}
 		\item Selezione: avviene la chiamata alla funzione \texttt{closest\_vertex(p, V)};
 		\item Inserimento: il vertice ritornato nella fase precedente viene inserito in coda al cammino parziale e rimosso da \texttt{C};
 	\end{enumerate}  
-	\item Una volta completato il ciclo interno, viene chiuso il ciclo hamiltoniano inserendo nuovamente il vertice di partenza;
+	\item Una volta completato il ciclo \texttt{for} interno, viene chiuso il ciclo hamiltoniano inserendo nuovamente il vertice di partenza;
 	\item La distanza totale calcolata viene ritornata come risultato dell'algoritmo.
 \end{itemize}
 
@@ -45,7 +45,6 @@ L'implementazione del problema non ha richiesto particolari strutture dati. Di c
 L'algoritmo \texttt{Nearest Neighbor} può essere implementato in tempo proporzionale a $n^2$, dove $n$ è il numero di vertici del grafo:
 \begin{itemize}
 	\item La ricerca del vertice a distanza minima da un dato vertice ha complessità $O(n)$;
-	\item La ricerca precedente avviene per tutti gli $n$ vertici. Complessità finale $O(n^2)$;
-	
+	\item La ricerca precedente avviene per tutti gli $n$ vertici. Complessità finale $O(n^2)$.
 \end{itemize}
 \pagebreak

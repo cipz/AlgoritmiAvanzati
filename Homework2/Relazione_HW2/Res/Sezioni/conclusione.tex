@@ -1,3 +1,15 @@
 \section{Conclusione}
 
+% Commentate i risultati che avete ottenuto: come si comportano gli algoritmi rispetti alle varie istanze? C'è un algoritmo che riesce sempre a fare meglio degli altri rispetto all'errore di approssimazione? Quale dei tre algoritmi che avete implementato è più efficiente?
+
+Per quanto riguarda la prima e la seconda istanza, l'algoritmo di Held-Karp riesce a terminare entro il limite dei 90 secondi, trovando la soluzione ottima. 
+Per quanto riguarda le altre istanze, sicuramente Held-Karp troverebbe la soluzione ottima se avessimo a disposizione un tempo infinito. 
+Per le altre istanze, Nearest Neighbor risulta migliore: Held-Karp, allo scadere dei 90 secondi, ha una soluzione ottima solamente per una parte dei sottoproblemi, proseguendo poi in maniera non più ottimale. \\
+Non c'è dunque un algoritmo che fa meglio degli altri in tutte le istanze dei problemi proposti, dato un limite di tempo all'algoritmo di Held-Karp.\\
+Tuttavia, Nearest Neighbor è quello che presenta mediamente tempi di esecuzione ed errori inferiori rispetto agli altri algoritmi.\\
+\`E stato scelto di impiegare l'algoritmo di Prim in quanto presenta una complessità minore, $O(|V|^2)$, rispetto a quello di Kruskal.
+%Tra gli algoritmi di Kruskal e di Prim per il problema dell'albero di copertura minimo, è stato scelto quello di Prim poiché, essendo il grafo completo ed utilizzando l'implementazione ``ingenua'' con un vettore come coda di priorità, si ottiene una minore complessità (ovvero $O(|V|^2)$). 
+Anche l'euristica Nearest Neighbor ha complessità $O(|V|^2)$, ma dai tempi rilevati si può dire che quest'ultima ha delle costanti asintotiche più basse.\\
+Naturalmente l'algoritmo meno efficiente è Held-Karp che ha complessità $O(2^{|V|}*|V|^2)$, che però garantisce una soluzione ottima quando termina, ovvero avendo un tempo sufficiente.
+
 \pagebreak
