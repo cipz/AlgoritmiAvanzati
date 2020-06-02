@@ -35,8 +35,8 @@ Fintanto che la funzione del costo soddisfa tale regola, viene utilizzato il min
 	\begin{itemize}
 		\item viene costruito il grafo \texttt{g} a partire dai lista di vertici letta dal file in input;
 		\item si utilizza l'algoritmo di Prim per calcolare l'MST del grafo appena creato;
-		\item tale MST viene convertito, tramite l'uso della funzione \texttt{preorder}, in una lista che rappresenta i padri di ciascun nodo;
-		\item andando a riordinare questa lista tramite la funzione \texttt{preorder}, ottenendo quindi un ciclo hamiltoniano al quale, per chiudere il ciclo, viene appeso in coda il primo nodo, con indice 0;
+		\item tale MST viene convertito, tramite l'uso della funzione \texttt{mst\_to\_tree}, in una lista che rappresenta i padri di ciascun nodo;
+		\item andando a riordinare questa lista tramite la funzione \texttt{preorder}, si ottiene un ciclo hamiltoniano al quale viene appeso in coda il primo nodo, con indice 0, per chiuderlo;
 		\item viene quindi calcolata la soluzione finale andando a sommare i pesi degli archi che collegano i nodi del ciclo.
 	\end{itemize}
 		
