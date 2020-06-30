@@ -1,0 +1,54 @@
+\section{Algoritmo di Karger}\label{karger}
+
+\begin{lstlisting}[mathescape=true]
+Karger(G,k)
+	select a vertex r $\in$ G.V to be a root vertex
+	compute a MST T for G from root r using MST-PRIM(G, c, r)
+	let H be a list of vertices, ordered according to when they are first visited in a preordered tree walk of T
+	return the hamiltonian cycle H
+	
+Full contraption()
+	
+\end{lstlisting}	
+
+L'algoritmo di 2-approssimazione utilizza come sottoprocedura l'algoritmo di Prim, che fornisce un MST il cui peso dà un lower bound sulla lunghezza del ciclo della soluzione ottima del TSP sul grafo dato.\\
+Questo algoritmo sfrutta la disuguaglianza triangolare, ovvero dati tre nodi A, B, C, la distanza tra A e C può al massimo la distanza tra A e B sommata alla distanza tra B e C.\\
+Fintanto che la funzione del costo soddisfa tale regola, viene utilizzato il minimum spanning tree per creare un ciclo con un costo che è massimo due volte il costo della soluzione ottima, per questo si dice 2-approssimato.
+
+\subsection{Strutture dati}
+
+	A differenza degli altri homework, per migliorare le performance dell'algoritmo in questione, abbiamo deciso di utilizzare solamente la struttura dati Graph, implementata con i seguenti campi e metodi:
+	\begin{itemize}
+		\item \texttt{\textbf{n\_nodes}}
+		\item \texttt{\textbf{n\_edges}}
+		\item \texttt{\textbf{nodes}}
+		\item \texttt{\textbf{edges}}
+		\item \texttt{\textbf{init}}
+		\item \texttt{\textbf{addEdge}}
+		\item \texttt{\textbf{buildGraph}}
+	\end{itemize}
+	
+\subsection{Funzioni}
+	
+	Le funzioni ausiliarie utilizzate per calcolare la soluzione dell'algoritmo di Karger sono le seguenti:
+	\begin{itemize}
+		\item \texttt{\textbf{readInput}}: ;
+	\end{itemize}
+
+\subsection{Implementazione}
+	
+	La soluzione del problema è stata implementata nel seguente modo:
+	\begin{itemize}
+		\item viene costruito il grafo \texttt{g} a partire dai lista di vertici letta dal file in input;
+		\item si utilizza l'algoritmo di Prim per calcolare l'MST del grafo appena creato;
+		\item tale MST viene convertito, tramite l'uso della funzione \texttt{mst\_to\_tree}, in una lista che rappresenta i padri di ciascun nodo;
+		\item andando a riordinare questa lista tramite la funzione \texttt{preorder}, si ottiene un ciclo hamiltoniano al quale viene appeso in coda il primo nodo, con indice 0, per chiuderlo;
+		\item viene quindi calcolata la soluzione finale andando a sommare i pesi degli archi che collegano i nodi del ciclo.
+	\end{itemize}
+		
+\subsection{Complessità}
+
+	Per calcolare la complessità di questo algoritmo bisogna tenere in considerazione anche le operazioni che vengono svolte da Prim e, di conseguenza, quelle svolte sullo heap.\\
+	La complessità totale è quindi $O(|V|^2)$, dove V indica la lista di vertici del grafo.
+
+\pagebreak
