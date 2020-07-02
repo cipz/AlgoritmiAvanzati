@@ -1,54 +1,77 @@
 \section{Algoritmo di Karger}\label{karger}
-
 \begin{lstlisting}[mathescape=true]
-Karger(G,k)
-	select a vertex r $\in$ G.V to be a root vertex
-	compute a MST T for G from root r using MST-PRIM(G, c, r)
-	let H be a list of vertices, ordered according to when they are first visited in a preordered tree walk of T
-	return the hamiltonian cycle H
-	
-Full contraption()
-	
+KARGER(G, k):
+
+	min = +$\infty$
+	for i = 1 to k:		
+		t = FULL_CONTRACTION(G)		
+		if t < min:
+			t = min
+			
+	return min
+
+FULL_CONTRACTION(G):
+
+	for i = 1 to |V|-2:
+		pick a random edge e = (u, v)
+		merge u and v in a single node
+		remove edges between u and v
+		
+	return |E| // the edges between the two remaining vertices (u* ,v*)
 \end{lstlisting}	
 
-L'algoritmo di 2-approssimazione utilizza come sottoprocedura l'algoritmo di Prim, che fornisce un MST il cui peso dà un lower bound sulla lunghezza del ciclo della soluzione ottima del TSP sul grafo dato.\\
-Questo algoritmo sfrutta la disuguaglianza triangolare, ovvero dati tre nodi A, B, C, la distanza tra A e C può al massimo la distanza tra A e B sommata alla distanza tra B e C.\\
-Fintanto che la funzione del costo soddisfa tale regola, viene utilizzato il minimum spanning tree per creare un ciclo con un costo che è massimo due volte il costo della soluzione ottima, per questo si dice 2-approssimato.
+L'algoritmo di \textit{Karger} è un algoritmo randomizzato per la computazione del minimum cut di un \textit{multi-grafo} connesso.\\
+L'idea su cui si basa è quella di contrarre i vertici all'interno del multi-grafo fino a quando non ne restano solamente due, i quali rappresentano gli oppposti del taglio.
+
+Un multi-grafo è ...
+
+Essendo che è un \textit{algoritmo randomizzato}, ovvero ..., la procedura di contrazione va eseguito k volte, con k calcolato ...
+
+Possiamo quindi dire che l'algoritmo funziona con probabilità bassissima, che può però essere amplificata ripetendo questo processo molte volte.
+
 
 \subsection{Strutture dati}
 
-	A differenza degli altri homework, per migliorare le performance dell'algoritmo in questione, abbiamo deciso di utilizzare solamente la struttura dati Graph, implementata con i seguenti campi e metodi:
+	A differenza degli altri homework, per migliorare le performance dell'algoritmo in questione, abbiamo deciso di utilizzare solamente la struttura dati \texttt{Graph}, implementata con i seguenti campi e metodi:
 	\begin{itemize}
-		\item \texttt{\textbf{n\_nodes}}
-		\item \texttt{\textbf{n\_edges}}
-		\item \texttt{\textbf{nodes}}
-		\item \texttt{\textbf{edges}}
-		\item \texttt{\textbf{init}}
-		\item \texttt{\textbf{addEdge}}
-		\item \texttt{\textbf{buildGraph}}
+		\item \texttt{\textbf{n\_nodes}}: numero di nodi del grafo;
+		\item \texttt{\textbf{n\_edges}}: numero di lati del grafo;
+		\item \texttt{\textbf{nodes}}: dizionario con i nodi del grafo e le rispettive liste di adiacenza;
+		\item \texttt{\textbf{edges}}: lista con i lati del grafo;
+		\item \texttt{\textbf{\_\_init\_\_()}}: metodo di inizializzazione che imposta i precedenti campi a 0 o vuoti;
+		\item \texttt{\textbf{addEdge(v1, v2)}}: metodo che dati due nodi aggiunge il lato che li unisce alla lista \texttt{edges};
+		\item \texttt{\textbf{buildGraph(data)}} metodo che riceve in input una matrice di adiacenza e, in base a questa, ne costruisce un grafo.
 	\end{itemize}
 	
 \subsection{Funzioni}
 	
 	Le funzioni ausiliarie utilizzate per calcolare la soluzione dell'algoritmo di Karger sono le seguenti:
 	\begin{itemize}
-		\item \texttt{\textbf{readInput}}: ;
+		\item \texttt{\textbf{readInput(path)}}: metodo che, dato in input il path del dataset, ne legge il contenuto e restituisce la matrice di adiacenza del grafo;
+		\item \texttt{\textbf{graphCopy(graph)}}: metodo che riceve in input un oggetto di tipo \texttt{Graph} e ne restituisce una copia;
+		\item \texttt{\textbf{execute\_alg(path)}}: metodo che, dato in input il path del dataset, esegue la chiamata a \texttt{Karger(G)} calcolando i tempi richiesti nella consegna e confrontando i risultati ottenuti con quelli attesi.
 	\end{itemize}
 
 \subsection{Implementazione}
 	
 	La soluzione del problema è stata implementata nel seguente modo:
 	\begin{itemize}
-		\item viene costruito il grafo \texttt{g} a partire dai lista di vertici letta dal file in input;
-		\item si utilizza l'algoritmo di Prim per calcolare l'MST del grafo appena creato;
-		\item tale MST viene convertito, tramite l'uso della funzione \texttt{mst\_to\_tree}, in una lista che rappresenta i padri di ciascun nodo;
-		\item andando a riordinare questa lista tramite la funzione \texttt{preorder}, si ottiene un ciclo hamiltoniano al quale viene appeso in coda il primo nodo, con indice 0, per chiuderlo;
-		\item viene quindi calcolata la soluzione finale andando a sommare i pesi degli archi che collegano i nodi del ciclo.
+		\item a partire dalla lista di vertici nel file di input, viene costruito il grafo \texttt{graph};
+		\item viene calcolato il valore \texttt{k} tramite la formula \texttt{int((graph.n\_nodes**2 / 2) * \\
+			math.log(graph.n\_nodes))}. Se \texttt{k} supera $10000$ allora il suo valore lo fissiamo a tale soglia;
+		\item per migliorare le performance della soluzione proposta, abbiamo deciso di creare in anticipo le copie dei grafi per ciascuna delle \texttt{k} volte che verrà eseguito \texttt{fullContraction(G)};
+		\item viene effettuata la chiamata a \texttt{Karger(G,k)}, nel quale per \texttt{k} volte viene chiamato \texttt{fullContraction(G)}. I risultati di ciascuna chiamata vengono confrontati e viene salvato quello minimo, inoltre vengono registrati i tempi che sono presentati in formato tabellare nella Sez.~\ref{risultati}. Se il tempo di esecuzione supera quello massimo fissato, allora viene tornata la soluzione trovata fino a quel momento;
+		\item per ciascuna chiamata a \texttt{fullContraction(G)}, questo metodo sceglie in maniera randomica un lato presente all'interno del grafo passato in input e unisce i vertici che ne rappresentano gli estremi in un singolo vertice. Per ciascuno degli altri vertici presenti all'interno del grafo si modificano le liste di adiacenza e aggiornando i riferimenti. Vengono inoltre diminuiti i contatori \texttt{n\_nodes} e \texttt{n\_edges} all'interno della struttura \texttt{Graph}. Questo metodo ritorna il numero rimanente di lati all'interno del grafo dopo aver eliminato $|V|-2$ nodi;
+		\item i risultati vengono messi in coda alla lista e questo procedimento viene ripetuto per i rimanenti file in input non ancora valutati.
 	\end{itemize}
 		
 \subsection{Complessità}
 
-	Per calcolare la complessità di questo algoritmo bisogna tenere in considerazione anche le operazioni che vengono svolte da Prim e, di conseguenza, quelle svolte sullo heap.\\
-	La complessità totale è quindi $O(|V|^2)$, dove V indica la lista di vertici del grafo.
+	Per calcolare la complessità di questo algoritmo bisogna tenere in considerazione:
+	\begin{itemize}
+		\item la complessità di Karger
+		\item la complessità di fullContraction
+	\end{itemize}
+	La complessità totale dell'intero algoritmo risulta quindi essere
 
 \pagebreak
