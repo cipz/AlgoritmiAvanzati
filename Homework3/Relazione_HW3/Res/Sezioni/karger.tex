@@ -16,24 +16,24 @@ FULL_CONTRACTION(G):
 		pick a random edge e = (u, v)
 		merge u and v in a single node
 		remove edges between u and v
+		edit adjacency lists to point to the new node
 		
-	return |E| // the edges between the two remaining vertices (u* ,v*)
+	return |E| // the total number of edges remaining
 \end{lstlisting}	
 
 L'algoritmo di \textit{Karger} è un algoritmo randomizzato per la computazione del \textit{minimum cut} di un multi-grafo connesso.\\
 Un ``\textit{multi-grafo}'' è un particolare tipo di grafo che ammette ripetizioni di lati al suo interno, ovvero questi possono apparire più di una volta (con \textit{molteplicità} $\geq$ 1).\\
 L'idea su cui si basa l'algoritmo qui implementato, è quella di contrarre i vertici all'interno del multi-grafo fino a quando non ne restano solamente due, i quali rappresentano gli opposti del taglio.\\
-Per ``\textit{contrarre}'' si intende \textit{unire} i due nodi estremi di un lato in maniera da averne solamente uno. 
+Per ``\textit{contrarre}'' si intende \textit{unire} i due nodi estremi di un lato in maniera da averne solamente uno preservando il taglio minimo. 
 Dopo averli uniti vanno aggiustate le vecchie liste di adiacenza, unite in una singola, in maniera che i vecchi puntatori ai nodi tolti siano stati correttamente sostituiti con riferimenti al nuovo nodo e che non ci siano \textit{self-loops}.\\
-Essendo che è un \textit{algoritmo randomizzato}, ovvero utilizza un grado di casualità come parte della sua logica, la procedura di contrazione va eseguito $k$ volte, con $k$ calcolato in maniera da soddisfare la probabilità:
+Essendo un \textit{algoritmo randomizzato}, ovvero utilizza un grado di casualità come parte della sua logica, la procedura di contrazione va eseguita $k$ volte, con $k$ calcolato in maniera da soddisfare la probabilità:
 \begin{center}
-	$Pr("le~k~FULL\_C.~non~accumulano~la~taglia~del~min~cut") \leq (1-\frac{2}{n^2})^k$
-
+	$Pr(``le~k~FULL\_C.~non~accumulano~la~taglia~del~min~cut") \leq (1-\frac{2}{n^2})^k$
 \end{center}
 Voglio ottenere qualcosa del tipo $\frac{1}{n^d}$ e quindi scelgo $k = d\frac{n^2}{2}\ln n$.\\
 La logica che implementa la parte randomica in questo caso è la scelta del lato i cui nodi andranno contratti.\\
-Possiamo quindi dire che l'algoritmo funziona con probabilità bassissima, che può però essere amplificata ripetendo questo processo molte volte, esattamente k.\\
-Essendo però che questo potrebbe portare via tanto tempo da eseguire su tutte le istanze del dataset abbiamo introdotto un tempo massimo di 60 secondi per ciascuna istanza.
+Possiamo quindi dire che l'algoritmo funziona con probabilità bassissima, che può però essere amplificata ripetendo questo processo molte volte, esattamente $k$.\\
+Data l'alta complessità computazionale, abbiamo deciso di introdurre un tempo massimo di 60 secondi in modo da eseguire l'algoritmo su ciascuna istanza del dataset.
 
 \subsection{Strutture dati}
 
@@ -43,8 +43,8 @@ Essendo però che questo potrebbe portare via tanto tempo da eseguire su tutte l
 		\item \texttt{\textbf{n\_edges}}: numero di lati del grafo;
 		\item \texttt{\textbf{nodes}}: dizionario con i nodi del grafo e le rispettive liste di adiacenza;
 		\item \texttt{\textbf{edges}}: lista con i lati del grafo;
-		\item \texttt{\textbf{\_\_init\_\_()}}: metodo di inizializzazione che imposta i precedenti campi a 0 o vuoti;
-		\item \texttt{\textbf{addEdge(v1, v2)}}: metodo che dati due nodi aggiunge il lato che li unisce alla lista \texttt{edges};
+		\item \texttt{\textbf{\_\_init\_\_()}}: costruttore del grafo che imposta i precedenti campi a 0 o vuoti;
+		\item \texttt{\textbf{addEdge(v1, v2)}}: metodo che dati due nodi aggiunge il lato che li unisce alla lista \texttt{edges} aggiornando le liste di adiacenza;
 		\item \texttt{\textbf{buildGraph(data)}} metodo che riceve in input una matrice di adiacenza e, in base a questa, ne costruisce un grafo.
 	\end{itemize}
 	
@@ -64,9 +64,9 @@ Essendo però che questo potrebbe portare via tanto tempo da eseguire su tutte l
 		\item a partire dalla lista di vertici nel file di input, viene costruito il grafo \texttt{graph};
 		\item viene calcolato il valore \texttt{k} tramite la formula \texttt{int((graph.n\_nodes**2 / 2) * \\
 			math.log(graph.n\_nodes))}. Se \texttt{k} supera $10000$ allora il suo valore lo fissiamo a tale soglia;
-		\item per migliorare le performance della soluzione proposta, abbiamo deciso di creare in anticipo le copie dei grafi per ciascuna delle \texttt{k} volte che verrà eseguito \texttt{fullContraction(G)};
+		\item per migliorare le performance della soluzione proposta, abbiamo deciso di creare in anticipo le copie dei grafi per ciascuna delle \texttt{k} volte che verrà eseguito \texttt{fullContraction(G)}. La limitazione del valore di $k$ a 10000 è dovuta all'elevato costo della creazione delle $k$ copie di \texttt{graph};
 		\item viene effettuata la chiamata a \texttt{Karger(G,k)}, nel quale per \texttt{k} volte viene chiamato \texttt{fullContraction(G)}. I risultati di ciascuna chiamata vengono confrontati e viene salvato quello minimo, inoltre vengono registrati i tempi che sono presentati in formato tabellare nella Sez.~\ref{risultati}. Se il tempo di esecuzione supera quello massimo fissato, allora viene tornata la soluzione trovata fino a quel momento;
-		\item per ciascuna chiamata a \texttt{fullContraction(G)}, questo metodo sceglie in maniera randomica un lato presente all'interno del grafo passato in input e unisce i vertici che ne rappresentano gli estremi in un singolo vertice. Per ciascuno degli altri vertici presenti all'interno del grafo si modificano le liste di adiacenza e aggiornando i riferimenti. Vengono inoltre diminuiti i contatori \texttt{n\_nodes} e \texttt{n\_edges} all'interno della struttura \texttt{Graph}. Questo metodo ritorna il numero rimanente di lati all'interno del grafo dopo aver eliminato $|V|-2$ nodi;
+		\item per ciascuna chiamata a \texttt{fullContraction(G)}, questo metodo sceglie in maniera randomica un lato presente all'interno del grafo passato in input e unisce i vertici che ne rappresentano gli estremi in un singolo vertice. Per ciascuno degli altri vertici presenti all'interno del grafo si modificano le liste di adiacenza e aggiornano i riferimenti. Vengono inoltre diminuiti i contatori \texttt{n\_nodes} e \texttt{n\_edges} all'interno della struttura \texttt{Graph}. Questo metodo ritorna il numero rimanente di lati all'interno del grafo dopo aver eliminato $|V|-2$ nodi;
 		\item i risultati vengono messi in coda alla lista e questo procedimento viene ripetuto per i rimanenti file in input non ancora valutati.
 	\end{itemize}
 
@@ -75,13 +75,18 @@ Essendo però che questo potrebbe portare via tanto tempo da eseguire su tutte l
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\linewidth]{Img/example_1.png}
-			\caption{Esempio di esecuzione dell'algoritmo di Karger e Full Contraption}
+			\caption{Esempio di esecuzione dell'algoritmo di Karger e Full Contraction}
 		\end{figure}
 	\end{center}
 	\vspace{-1cm}
 		
 \subsection{Complessità}
 
-	La complessità della subroutine \texttt{fullContraction} è $O(n^2)$ e questo porta la complessità di \texttt{Karger}, e quindi di tutto l'algoritmo, ad essere $O(n^4\log n)$ per ciascuna istanza in analisi.
+	La complessità della subroutine \texttt{fullContraction} è $O(n^2)$ e questo porta la complessità di \texttt{Karger}, e quindi di tutto l'algoritmo, ad essere $O(n^4\log n)$ per ciascuna istanza in analisi.\\
+	In particolare:
+	\begin{itemize}
+		\item nella subroutine di \texttt{FullContraction} la complessità è dovuta dal primo ciclo \texttt{for} che ha complessità $O(n)$ e ciascuna contrazione ha complessità $O(n)$. In totale, quindi, \texttt{FullContraction} ha complessità $O(n^2)$;
+		\item la complessità di \texttt{Karger} è dovuta dalla complessità della precedente procedura \texttt{FullContraction}, ripetuta $k$ volte, con una complessità totale di $O(n^4\log n)$.
+	\end{itemize}
 	
 \pagebreak

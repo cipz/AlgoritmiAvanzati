@@ -1,5 +1,25 @@
 \section{Conclusione}
 
+%Domanda 1
+%
+%Misurate i tempi di calcolo della procedura Full_Contraction sui grafi del dataset. Mostrate i risultati con un grafico che mostri la variazione dei tempi di calcolo al variare del numero di vertici nel grafo. Confrontate i tempi misurati con la complessità asintotica di Full_contraction.
+%Domanda 2
+%
+%Misurate i tempi di calcolo dell'algoritmo di Karger sui grafi del dataset, usando un numero di ripetizioni che garantisca una probabilità minore o uguale a 1n di sbagliare. Mostrate i risultati con un grafico che mostri la variazione dei tempi di calcolo al variare del numero di vertici nel grafo. Confrontate i tempi misurati con la complessità asintotica dell'algoritmo. Nelle istanze più grandi, il tempo di calcolo necessario a completare tutte le iterazioni potrebbe risultare eccessivo. In questo caso utilizzate un timeout oppure abbassate il numero di ripetizioni per ottenere tempi di esecuzione ragionevoli.
+%
+%Domanda 3
+%
+%Misurate il l discovery time dell'algoritmo di Karger sui grafi del dataset. Il discovery time è il momento (in secondi) in cui l'algoritmo trova per la prima volta il taglio di costo mimimo.  Confrontate il discovery time con il tempo di esecuzione complessivo per ognuno dei grafi nel dataset.
+%
+%Domanda 4
+%
+%Per ognuno dei grafi del dataset, riportate il risultato risultato ottenuto dalla vostra implementazione, la soluzione attesa e l'errore relativo calcolato come SoluzioneTrovata−SoluzioneAttesa/SoluzioneAttesa.
 
+La complessità asintotica di \texttt{FullContraction} è $O(n^2)$ e quindi all'aumentare della dimensione dell'input il tempo di una singola \texttt{FullContraction} aumenta e, proporzionalmente, aumenta il tempo totale di esecuzione, cioè la ripetizione di $k$ volte della procedura.
+Ottenuti questi risultati si può affermare che rispettano la complessità attesa della procedura \texttt{FullContraction} e, di conseguenza, quella di \texttt{Karger}.\\
+Il grafico in Fig.~\ref{fc_time} indica i tempi medi dell'esecuzione della procedura \texttt{FullContraction} per ciascuna istanza in input.\\
+Il grafico in Fig.~\ref{confronto} mostra il confronto tra il discovery time con il tempo di esecuzione complessivo per ognuno dei grafi nel dataset. 
+Si può notare che all'aumentare della dimensione delle istanze di input e di conseguenza all'aumentare del tempo massimo di esecuzione dell'algoritmo il discovery time aumenta, però questo dato presenta un'elevata variabilità dovuta alla scelta casuale del lato effettuata dall'algoritmo.\\
+Tutti i risultati ottenuti dall'algoritmo hanno una percentuale di errore di $0\%$ in quanto la procedura riesce a trovare la soluzione esatta entro i tempi prefissati.
 
 \pagebreak
