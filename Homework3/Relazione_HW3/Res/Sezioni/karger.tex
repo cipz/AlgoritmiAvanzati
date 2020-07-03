@@ -20,15 +20,20 @@ FULL_CONTRACTION(G):
 	return |E| // the edges between the two remaining vertices (u* ,v*)
 \end{lstlisting}	
 
-L'algoritmo di \textit{Karger} è un algoritmo randomizzato per la computazione del minimum cut di un \textit{multi-grafo} connesso.\\
-L'idea su cui si basa è quella di contrarre i vertici all'interno del multi-grafo fino a quando non ne restano solamente due, i quali rappresentano gli oppposti del taglio.
+L'algoritmo di \textit{Karger} è un algoritmo randomizzato per la computazione del \textit{minimum cut} di un multi-grafo connesso.\\
+Un ``\textit{multi-grafo}'' è un particolare tipo di grafo che ammette ripetizioni di lati al suo interno, ovvero questi possono apparire più di una volta (con \textit{molteplicità} $\geq$ 1).\\
+L'idea su cui si basa l'algoritmo qui implementato, è quella di contrarre i vertici all'interno del multi-grafo fino a quando non ne restano solamente due, i quali rappresentano gli opposti del taglio.\\
+Per ``\textit{contrarre}'' si intende \textit{unire} i due nodi estremi di un lato in maniera da averne solamente uno. 
+Dopo averli uniti vanno aggiustate le vecchie liste di adiacenza, unite in una singola, in maniera che i vecchi puntatori ai nodi tolti siano stati correttamente sostituiti con riferimenti al nuovo nodo e che non ci siano \textit{self-loops}.\\
+Essendo che è un \textit{algoritmo randomizzato}, ovvero utilizza un grado di casualità come parte della sua logica, la procedura di contrazione va eseguito $k$ volte, con $k$ calcolato in maniera da soddisfare la probabilità:
+\begin{center}
+	$Pr("le~k~FULL\_C.~non~accumulano~la~taglia~del~min~cut") \leq (1-\frac{2}{n^2})^k$
 
-Un multi-grafo è ...
-
-Essendo che è un \textit{algoritmo randomizzato}, ovvero ..., la procedura di contrazione va eseguito k volte, con k calcolato ...
-
-Possiamo quindi dire che l'algoritmo funziona con probabilità bassissima, che può però essere amplificata ripetendo questo processo molte volte.
-
+\end{center}
+Voglio ottenere qualcosa del tipo $\frac{1}{n^d}$ e quindi scelgo $k = d\frac{n^2}{2}\ln n$.\\
+La logica che implementa la parte randomica in questo caso è la scelta del lato i cui nodi andranno contratti.\\
+Possiamo quindi dire che l'algoritmo funziona con probabilità bassissima, che può però essere amplificata ripetendo questo processo molte volte, esattamente k.\\
+Essendo però che questo potrebbe portare via tanto tempo da eseguire su tutte le istanze del dataset abbiamo introdotto un tempo massimo di 60 secondi per ciascuna istanza.
 
 \subsection{Strutture dati}
 
@@ -64,6 +69,16 @@ Possiamo quindi dire che l'algoritmo funziona con probabilità bassissima, che p
 		\item per ciascuna chiamata a \texttt{fullContraction(G)}, questo metodo sceglie in maniera randomica un lato presente all'interno del grafo passato in input e unisce i vertici che ne rappresentano gli estremi in un singolo vertice. Per ciascuno degli altri vertici presenti all'interno del grafo si modificano le liste di adiacenza e aggiornando i riferimenti. Vengono inoltre diminuiti i contatori \texttt{n\_nodes} e \texttt{n\_edges} all'interno della struttura \texttt{Graph}. Questo metodo ritorna il numero rimanente di lati all'interno del grafo dopo aver eliminato $|V|-2$ nodi;
 		\item i risultati vengono messi in coda alla lista e questo procedimento viene ripetuto per i rimanenti file in input non ancora valutati.
 	\end{itemize}
+
+	\vspace{1cm}
+	\begin{center}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth]{Img/example_1.png}
+			\caption{Esempio di esecuzione dell'algoritmo di Karger e Full Contraption}
+		\end{figure}
+	\end{center}
+	\vspace{-1cm}
 		
 \subsection{Complessità}
 
