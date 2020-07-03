@@ -82,11 +82,6 @@ Essendo però che questo potrebbe portare via tanto tempo da eseguire su tutte l
 		
 \subsection{Complessità}
 
-	Per calcolare la complessità di questo algoritmo bisogna tenere in considerazione:
-	\begin{itemize}
-		\item la complessità di Karger
-		\item la complessità di fullContraction
-	\end{itemize}
-	La complessità totale dell'intero algoritmo risulta quindi essere
-
+	La complessità della subroutine \texttt{fullContraction} è $O(n^2)$ e questo porta la complessità di \texttt{Karger}, e quindi di tutto l'algoritmo, ad essere $O(n^4\log n)$ per ciascuna istanza in analisi.
+	
 \pagebreak
