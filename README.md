@@ -6,5 +6,5 @@ Each assignment folder contains a README with the description of the project and
 
 The group is composed by:
 - Nicolò Tartaggia ([LinkedIn](https://www.linkedin.com/in/nictartaggia/), [GitHub](https://github.com/NicoloTartaggia/))
-- Lorenzo Busin ([GitHub](https://github.com/lorenzobusin/))
+- Lorenzo Busin ([LinkedIn](https://www.linkedin.com/in/lorenzo-busin-3314761b6/), [GitHub](https://github.com/lorenzobusin/))
 - Ciprian Voinea ([LinkedIn](https://www.linkedin.com/in/cvoinea/), [GitHub](https://github.com/cipz/))
